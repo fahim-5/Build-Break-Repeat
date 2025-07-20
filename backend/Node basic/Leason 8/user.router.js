@@ -21,4 +21,10 @@ router.delete('/delete/:id', (req, res) => {
   res.send(`DELETE request successful for ID ${req.params.id}`);
 });
 
+// QUERY PARAMETER EXAMPLE
+router.get('/search', (req, res) => {
+  const { keyword, page } = req.query;
+  res.send(`Search results for keyword: "${keyword}", page: ${page}`);
+});
+
 module.exports = router;
