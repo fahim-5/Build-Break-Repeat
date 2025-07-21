@@ -2,9 +2,15 @@ const express = require('express');
 const router = express.Router();    
 
 // GET route
-router.get('/hello', (req, res) => {
-  res.send('GET request successful!');
+// router.get('/hello', (req, res) => {
+//   res.send('GET request successful!');
+// });
+
+router.get('/hello/:name', (req, res) => {
+  const { name } = req.params;
+  res.send(`Hello, ${name}!`);
 });
+
 
 // POST route
 router.post('/echo', (req, res) => {
