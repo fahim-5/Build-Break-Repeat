@@ -1,5 +1,8 @@
 const express = require('express');
-const router = express.Router();    
+const router = express.Router();  
+
+
+
 
 // GET route
 // router.get('/hello', (req, res) => {
@@ -27,10 +30,23 @@ router.delete('/delete/:id', (req, res) => {
   res.send(`DELETE request successful for ID ${req.params.id}`);
 });
 
+router.post('/json', (req, res) => {
+  const { name } = req.body;
+  res.send(`Received JSON data: ${name}`);
+});
+
 // QUERY PARAMETER EXAMPLE
 router.get('/search', (req, res) => {
   const { keyword, page } = req.query;
   res.send(`Search results for keyword: "${keyword}", page: ${page}`);
 });
+
+const path = require('path');
+
+router.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'view.html')); // Adjust path if needed
+});
+
+  
 
 module.exports = router;
