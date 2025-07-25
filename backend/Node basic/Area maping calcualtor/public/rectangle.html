@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rectangle Area Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    h2 {
+      color: #34A853;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 300px;
+    }
+    input {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #34A853;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2D8E49;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #34A853;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>🟦 Rectangle Area Calculator</h2>
+  <form method="POST" action="/rectangle">
+    <input type="number" name="height" placeholder="Enter height" required step="any">
+    <input type="number" name="width" placeholder="Enter width" required step="any">
+    <button type="submit">Calculate Area</button>
+  </form>
+  <a href="/" class="back-link">← Back to Home</a>
+</body>
+</html>
