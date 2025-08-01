@@ -22,6 +22,8 @@ mongoose
     process.exit(1);
   });
 
+
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,6 +50,13 @@ app.get("/users", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+// very low lavel authencaticatoion . this only check the exsistencey of the email
+// and the password in the database
+// // this is not a secure way to authenticate users, use bcrypt or other libraries for hashing passwords  
+// here they using email for filter ans passowrd is then checking by string matching.MONGO_URL
+// this is lavel one autthenctication
 
 app.post("/login", async (req, res) => {
   try {
