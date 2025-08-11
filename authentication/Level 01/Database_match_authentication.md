@@ -183,3 +183,78 @@ MONGO_URL=mongodb+srv://fahim:12345@cluster0.mongodb.net/userAuthDb?retryWrites=
 
 
 
+### ✅ Steps to Use `mongoose-encryption`:
+
+#### 1. **Install the package**:
+
+```bash
+npm install mongoose-encryption
+```
+
+---
+
+#### 2. **Set up your User model** (`userModel.js` or similar):
+
+```js
+const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
+
+// Define the schema
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true, // spelling fixed: require → required
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Encryption key (store securely in .env)
+const encKey = process.env.ENC_KEY;
+
+// Add encryption plugin to schema
+userSchema.plugin(encrypt, {
+  secret: encKey,
+  encryptedFields: ["password"], // only encrypts 'password' field
+});
+
+// Export the model
+module.exports = mongoose.model("User", userSchema);
+```
+
+---
+
+### 🔐 Environment Setup (`.env` file):
+
+Make sure your `.env` file includes a secure encryption key like this:
+
+```
+ENC_KEY=your32characterencryptionkeyhere!
+```
+
+**Important:** `ENC_KEY` must be **32 characters long**. You can generate one using Node.js:
+
+```js
+console.log(require("crypto").randomBytes(32).toString("hex"));
+```
+
+Then take the first 32 characters.
+
+---
+
+### ❗ Important Notes:
+
+* `mongoose-encryption` encrypts the field **when saving** and **decrypts automatically** when retrieving.
+* Don't encrypt the whole document unless needed — it may affect queries and performance.
+* Never hardcode the encryption key — always use `process.env`.
+
+---
+
+
+
