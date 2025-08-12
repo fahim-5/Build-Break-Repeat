@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Authentication.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>11-08-2025</sub>
+</p>
+<h2 id="authentication">Authentication</h2>
+<ul>
+<li>Database matching authentication</li>
+<li>Use <strong>mongoose-encryption</strong> package to encrypt user credentials</li>
+<li>Hash passwords using the <strong>md5</strong> package</li>
+<li>Use <strong>bcrypt</strong> package for salting and hashing passwords</li>
+</ul>
+<hr>
+<br>
+<br>
+<h1 id="database-matching-authentication"><strong>Database Matching Authentication</strong></h1>
+<p>Database matching authentication means checking your login details against a database. If your username and password match the stored info, you get access. If not, you don’t. Simple as that.</p>
+<h2 id="%F0%9F%93%81-folder-structure">📁 Folder Structure</h2>
+<pre class="hljs"><code><div>project-root/
+├── models/
+│   └── user.models.js
+├── views/
+│   └── index.html
+├── app.js
+├── package.json
+├── package-lock.json
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%93%84-usermodelsjs-%E2%80%93-mongoose-user-schema">📄 user.models.js – Mongoose User Schema</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+
+<span class="hljs-comment">// Define the User schema</span>
+<span class="hljs-keyword">const</span> userSchema = <span class="hljs-keyword">new</span> mongoose.Schema({
+  <span class="hljs-attr">email</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// Corrected "require" to "required"</span>
+  },
+  <span class="hljs-attr">password</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// Corrected "require" to "required"</span>
+  },
+  <span class="hljs-attr">createdOn</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">Date</span>,
+    <span class="hljs-attr">default</span>: <span class="hljs-built_in">Date</span>.now,
+  },
+});
+
+<span class="hljs-comment">// Export the model</span>
+<span class="hljs-built_in">module</span>.exports = mongoose.model(<span class="hljs-string">"User"</span>, userSchema);
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%97%82%EF%B8%8F-indexhtml-%E2%80%93-homepage-view">🗂️ index.html – Homepage View</h2>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Authentication App<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome to Authentication<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%9A%80-appjs-%E2%80%93-main-server-file-authentication-backend">🚀 app.js – Main Server File (Authentication Backend)</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// Load environment variables</span>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+
+<span class="hljs-comment">// Import dependencies</span>
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> cors = <span class="hljs-built_in">require</span>(<span class="hljs-string">"cors"</span>);
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./models/user.model"</span>);
+
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> PORT = process.env.PORT || <span class="hljs-number">5000</span>;
+<span class="hljs-keyword">const</span> dbURL = process.env.MONGO_URL;
+
+<span class="hljs-comment">// Connect to MongoDB Atlas</span>
+mongoose
+  .connect(dbURL)
+  .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"MongoDB Atlas is connected"</span>);
+  })
+  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"MongoDB connection error:"</span>, error);
+    process.exit(<span class="hljs-number">1</span>);
+  });
+
+<span class="hljs-comment">// Middleware</span>
+app.use(cors());
+app.use(express.urlencoded({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> }));
+app.use(express.json());
+
+<span class="hljs-comment">// Serve HTML view</span>
+app.get(<span class="hljs-string">"/"</span>, (req, res) =&gt; {
+  res.sendFile(__dirname + <span class="hljs-string">"/views/index.html"</span>);
+});
+
+<span class="hljs-comment">// Register route</span>
+app.post(<span class="hljs-string">"/register"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> newUser = <span class="hljs-keyword">new</span> User(req.body);
+    <span class="hljs-keyword">await</span> newUser.save();
+    res.status(<span class="hljs-number">201</span>).json(newUser);
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">error</span>: error.message });
+  }
+});
+
+<span class="hljs-comment">// Login route</span>
+app.post(<span class="hljs-string">"/login"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> { email, password } = req.body;
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ email });
+
+    <span class="hljs-keyword">if</span> (user &amp;&amp; user.password === password) {
+      res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"Valid user"</span> });
+    } <span class="hljs-keyword">else</span> {
+      res.status(<span class="hljs-number">404</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"Not valid user"</span> });
+    }
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">error</span>: error.message });
+  }
+});
+
+<span class="hljs-comment">// Handle 404 - Route not found</span>
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.status(<span class="hljs-number">404</span>).json({ <span class="hljs-attr">message</span>: <span class="hljs-string">"Route not found"</span> });
+});
+
+<span class="hljs-comment">// Handle 500 - Server error</span>
+app.use(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =&gt;</span> {
+  res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">message</span>: <span class="hljs-string">"Something broke"</span> });
+});
+
+<span class="hljs-comment">// Start the server</span>
+app.listen(PORT, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server is running at http://localhost:<span class="hljs-subst">${PORT}</span>`</span>);
+});
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%94%90-env-%E2%80%93-environment-variables">🔐 .env – Environment Variables</h2>
+<pre class="hljs"><code><div>PORT=5000
+MONGO_URL=mongodb+srv://fahim:fahim1234@cluster0.pf7ukrv.mongodb.net/userAuthDb 
+
+</div></code></pre>
+<h3 id="breakdown">Breakdown:</h3>
+<ul>
+<li>fahim: your MongoDB username</li>
+<li>12345: your password (again, not safe for real-world use)</li>
+<li>cluster0.mongodb.net: your actual cluster host (from MongoDB Atlas)</li>
+<li>userAuthDb: your <strong>database name</strong></li>
+<li>?retryWrites=true&amp;w=majority: required for MongoDB Atlas connection</li>
+</ul>
+<hr>
+<h2 id="summary-of-how-database-match-authentication-works">Summary of How Database-Match Authentication Works</h2>
+<ol>
+<li>The project has a simple folder structure with models, views, and main files (app.js, package.json).</li>
+<li>A user.models.js file defines a Mongoose schema for storing user email, password, and creation date.</li>
+<li>The index.html view contains a basic HTML structure with a welcome message.</li>
+<li>app.js sets up an Express server with middleware for JSON parsing and CORS.</li>
+<li>It connects to a MongoDB Atlas database using credentials stored in an .env file.</li>
+<li>The server serves the homepage via the / route.</li>
+<li>It handles user registration (/register) by saving new users to the database.</li>
+<li>The /login route checks user credentials against stored values in MongoDB.</li>
+<li>Custom handlers return JSON responses for 404 and 500 errors.</li>
+<li>The .env file securely stores PORT and MONGO_URL for configuration.</li>
+</ol>
+<hr>
+<br>
+<br>
+<br>
+<h1 id="steps-to-use-mongoose-encryption"><strong>Steps to Use mongoose-encryption</strong></h1>
+<br>
+<h4 id="1-install-the-package">1. <strong>Install the package</strong>:</h4>
+<pre class="hljs"><code><div>npm install mongoose-encryption
+</div></code></pre>
+<hr>
+<h4 id="2-set-up-your-user-model-usermodeljs-or-similar">2. <strong>Set up your User model</strong> (userModel.js or similar):</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+<span class="hljs-keyword">const</span> encrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose-encryption"</span>);
+
+<span class="hljs-comment">// Define the schema</span>
+
+<span class="hljs-comment">// Encryption key (store securely in .env)</span>
+<span class="hljs-keyword">const</span> encKey = process.env.ENC_KEY;
+
+<span class="hljs-comment">// Add encryption plugin to schema</span>
+userSchema.plugin(encrypt, {
+  <span class="hljs-attr">secret</span>: encKey,
+  <span class="hljs-attr">encryptedFields</span>: [<span class="hljs-string">"password"</span>], <span class="hljs-comment">// only encrypts 'password' field</span>
+});
+
+<span class="hljs-comment">// Export the model</span>
+<span class="hljs-built_in">module</span>.exports = mongoose.model(<span class="hljs-string">"User"</span>, userSchema);
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%94%90-environment-setup-env-file">🔐 Environment Setup (.env file):</h3>
+<p>Make sure your .env file includes a secure encryption key like this:</p>
+<pre class="hljs"><code><div>ENC_KEY=your32characterencryptionkeyhere!
+</div></code></pre>
+<p><strong>Important:</strong> ENC_KEY must be <strong>32 characters long</strong>. You can generate one using Node.js:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">require</span>(<span class="hljs-string">"crypto"</span>).randomBytes(<span class="hljs-number">32</span>).toString(<span class="hljs-string">"hex"</span>));
+</div></code></pre>
+<p>Then take the first 32 characters.</p>
+<hr>
+<h3 id="%E2%9D%97-important-notes">❗ Important Notes:</h3>
+<ul>
+<li>mongoose-encryption encrypts the field <strong>when saving</strong> and <strong>decrypts automatically</strong> when retrieving.</li>
+<li>Don't encrypt the whole document unless needed — it may affect queries and performance.</li>
+<li>Never hardcode the encryption key — always use process.env.</li>
+</ul>
+<br>
+<blockquote>
+<p>If an attacker gets access to the <em><strong>encryption key</strong></em> used by the <em><strong>mongoose-encryption</strong></em> package, they can easily decrypt sensitive data such as passwords. This is because the key is what locks and unlocks the encrypted fields. For this reason, it’s critical to keep the key <strong>secure and out of your source code</strong>, ideally stored in environment variables or a secure key management service.</p>
+</blockquote>
+<hr>
+<br>
+<br>
+<br>
+<h1 id="hashing-password"><strong>Hashing password</strong></h1>
+<br>
+<p>First install:</p>
+<pre class="hljs"><code><div>npm i md5
+</div></code></pre>
+<p>This time we don’t need the mongoose encryption key or any code related to mongoose-encryption.</p>
+<p>Then we need to require <em><strong>md5</strong></em> where we are saving data in the database — basically in the register route.</p>
+<p>Now our register route will look like:</p>
+<pre class="hljs"><code><div>app.post(<span class="hljs-string">"/register"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> newUser = <span class="hljs-keyword">new</span> User({
+      <span class="hljs-attr">email</span>: req.body.email,
+      <span class="hljs-attr">password</span>: md5(req.body.password),
+    });
+    <span class="hljs-keyword">await</span> newUser.save();
+    res.status(<span class="hljs-number">201</span>).json(newUser);
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json(error.message);
+  }
+});
+</div></code></pre>
+<p>At login time, we need to do exactly the same thing we did in the registration time.</p>
+<p>Our login route will look like:</p>
+<pre class="hljs"><code><div>app.post(<span class="hljs-string">"/login"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> email = req.body.email;
+    <span class="hljs-keyword">const</span> password = md5(req.body.password);
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ <span class="hljs-attr">email</span>: email });
+    <span class="hljs-keyword">if</span> (user &amp;&amp; user.password === password) {
+      res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"valid user"</span> });
+    } <span class="hljs-keyword">else</span> {
+      res.status(<span class="hljs-number">404</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"Not valid user"</span> });
+    }
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json(error.message);
+  }
+});
+</div></code></pre>
+<p><strong>Cons of this package:</strong> For the same message, it will create the same hashing key again and again. That’s how a hacker can track our actual password.</p>
+<hr>
+<p>Here’s the updated note with a <strong>side-by-side MD5 vs bcrypt comparison table</strong> added at the end:</p>
+<hr>
+<br>
+<br>
+<h1 id="hashing-password-with-bcrypt"><strong>Hashing password with bcrypt</strong></h1>
+<br>
+<p>First install:</p>
+<pre class="hljs"><code><div>npm i bcrypt
+</div></code></pre>
+<p>Then require this in both the login and registration processes:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"bcrypt"</span>);
+<span class="hljs-keyword">const</span> saltRounds = <span class="hljs-number">10</span>;
+</div></code></pre>
+<p>We can choose <strong>technique 2</strong> from the package documentation:</p>
+<pre class="hljs"><code><div>bcrypt.hash(myPlaintextPassword, saltRounds, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, hash</span>) </span>{
+    <span class="hljs-comment">// Store hash in your password DB.</span>
+});
+</div></code></pre>
+<hr>
+<h3 id="register-route"><strong>Register Route</strong></h3>
+<pre class="hljs"><code><div>app.post(<span class="hljs-string">"/register"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    bcrypt.hash(req.body.password, saltRounds, <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, hash</span>) </span>{
+      <span class="hljs-keyword">const</span> newUser = <span class="hljs-keyword">new</span> User({
+        <span class="hljs-attr">email</span>: req.body.email,
+        <span class="hljs-attr">password</span>: hash,
+      });
+      <span class="hljs-keyword">await</span> newUser.save();
+      res.status(<span class="hljs-number">201</span>).json(newUser);
+    });
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json(error.message);
+  }
+});
+</div></code></pre>
+<hr>
+<h3 id="login-route"><strong>Login Route</strong></h3>
+<pre class="hljs"><code><div>app.post(<span class="hljs-string">"/login"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> email = req.body.email;
+    <span class="hljs-keyword">const</span> password = req.body.password;
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ <span class="hljs-attr">email</span>: email });
+    <span class="hljs-keyword">if</span> (user) {
+      bcrypt.compare(password, user.password, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, result</span>) </span>{
+        <span class="hljs-keyword">if</span> (result === <span class="hljs-literal">true</span>) {
+          res.status(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"valid user"</span> });
+        } <span class="hljs-keyword">else</span> {
+          res.status(<span class="hljs-number">404</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"Not valid user"</span> });
+        }
+      });
+    } <span class="hljs-keyword">else</span> {
+      res.status(<span class="hljs-number">404</span>).json({ <span class="hljs-attr">status</span>: <span class="hljs-string">"Not valid user"</span> });
+    }
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).json(error.message);
+  }
+});
+</div></code></pre>
+<hr>
+<h3 id="why-bcrypt-is-safer-than-md5"><strong>Why bcrypt is safer than MD5</strong></h3>
+<ul>
+<li><strong>MD5 is fast and predictable</strong> — the same input will always produce the same output, making it easy for hackers to use precomputed hash tables (rainbow tables) to crack passwords.</li>
+<li><strong>bcrypt is slow and salted</strong> — it adds a random salt to each password before hashing, meaning even the same password will have different hashes every time.</li>
+<li>The slowness of bcrypt makes brute-force attacks much harder, and the unique salt defeats rainbow table attacks.</li>
+</ul>
+<hr>
+<h3 id="md5-vs-bcrypt--quick-comparison"><strong>MD5 vs bcrypt — Quick Comparison</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>MD5</strong></th>
+<th><strong>bcrypt</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Security Level</strong></td>
+<td>Weak (easily cracked)</td>
+<td>Strong (resistant to brute-force)</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>Very fast (bad for security)</td>
+<td>Slow (good for security)</td>
+</tr>
+<tr>
+<td><strong>Salting</strong></td>
+<td>No built-in salting</td>
+<td>Automatically salts every password</td>
+</tr>
+<tr>
+<td><strong>Output</strong></td>
+<td>Always same for same input</td>
+<td>Different output each time</td>
+</tr>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>Checksums, non-security purposes</td>
+<td>Password storage</td>
+</tr>
+<tr>
+<td><strong>Rainbow Table Risk</strong></td>
+<td>High</td>
+<td>None (due to unique salt)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+</body>
+</html>
