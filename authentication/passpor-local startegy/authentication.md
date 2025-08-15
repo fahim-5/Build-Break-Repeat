@@ -453,7 +453,10 @@ const checkLoggedIn = (req, res, next) => {
   }
   next();
 };
+```
+Now we can use this
 
+```js
 // Login: GET
 app.get("/login", checkLoggedIn, (req, res) => {
   res.render("login");
@@ -537,4 +540,19 @@ app.get("/logout", (req, res, next) => {
 8. Logout with ***req.logout()***.
 
 ---
+
+
+---
+
+> For full source code, detailed examples, and additional resources, please visit the official GitHub repository:
+> [anisul-Islam/web-authentication](https://github.com/anisul-Islam/web-authentication)
+
+---
+
+
+
+
+<p align="center">
+  <strong>Thank you</strong><br>
+</p>
 

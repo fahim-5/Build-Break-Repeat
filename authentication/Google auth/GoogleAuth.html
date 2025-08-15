@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GoogleAuth.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>13-08-2025</sub>
+</p>
+<h1 id="authentication-2">Authentication 2</h1>
+<ul>
+<li>Passport Google OAuth20 session</li>
+</ul>
+<hr>
+<br> 
+<br>
+<h1 id="google-oauth-20-with-passportjs"><strong>Google OAuth 2.0 with Passport.js</strong></h1>
+<p>We can find <code>OAuth20</code> in the <strong>Passport.js library</strong> documentation by searching for <strong>passport-google-oauth20</strong>.</p>
+<p>With Google OAuth, we don’t need to store a password in the <code>User</code> model.
+Instead, we store the <strong>Google ID</strong> returned by Google during authentication.</p>
+<hr>
+<h2 id="1-update-user-model"><strong>1. Update User Model</strong></h2>
+<p>Example user model with <code>googleId</code> instead of <code>password</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+
+<span class="hljs-keyword">const</span> userSchema = <span class="hljs-keyword">new</span> mongoose.Schema({
+  <span class="hljs-attr">username</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>,
+  },
+  <span class="hljs-attr">googleId</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+  },
+});
+
+<span class="hljs-keyword">const</span> User = mongoose.model(<span class="hljs-string">"User"</span>, userSchema);
+<span class="hljs-built_in">module</span>.exports = User;
+</div></code></pre>
+<hr>
+<h2 id="2-update-login-form"><strong>2. Update Login Form</strong></h2>
+<p>Add a Google login button in your login page:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/auth/google"</span>&gt;</span>Login with Google<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+</div></code></pre>
+<hr>
+<h2 id="3-install-required-package"><strong>3. Install Required Package</strong></h2>
+<pre class="hljs"><code><div>npm install passport-google-oauth20
+</div></code></pre>
+<hr>
+<h2 id="4-get-google-oauth-credentials"><strong>4. Get Google OAuth Credentials</strong></h2>
+<p>The <strong>passport-google-oauth20</strong> package documentation contains a link to the
+<strong>Google Developers Console</strong> — this is where you get your <strong>Client ID</strong> and <strong>Client Secret</strong>.</p>
+<p><strong>Steps to get credentials:</strong></p>
+<ol>
+<li>
+<p><strong>Go to Google Developers Console</strong>
+<a href="https://console.cloud.google.com/">https://console.cloud.google.com/</a></p>
+</li>
+<li>
+<p><strong>Sign in</strong> with your Google account.</p>
+</li>
+<li>
+<p><strong>Create a New Project</strong></p>
+<ul>
+<li>Click <strong>New Project</strong></li>
+<li>Give it a <strong>name</strong></li>
+<li>Click <strong>Create</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Select the Project</strong> you just created.</p>
+</li>
+<li>
+<p><strong>Set up OAuth Consent Screen</strong></p>
+<ul>
+<li>
+<p>Go to <strong>OAuth Consent Screen</strong></p>
+</li>
+<li>
+<p><strong>User Type</strong> → Select <strong>External</strong></p>
+</li>
+<li>
+<p>Click <strong>Create</strong></p>
+</li>
+<li>
+<p>Fill in:</p>
+<ul>
+<li><strong>App Name</strong></li>
+<li><strong>User Support Email</strong></li>
+<li><strong>Developer Contact Email</strong></li>
+</ul>
+</li>
+<li>
+<p>Click <strong>Save and Continue</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Skip</strong> the <strong>Scopes</strong> and <strong>Test Users</strong> for now → Click <strong>Save and Continue</strong> until done.</p>
+</li>
+<li>
+<p><strong>Create Credentials</strong></p>
+<ul>
+<li>Go to <strong>Credentials</strong> → <strong>Create Credentials</strong> → <strong>OAuth Client ID</strong></li>
+<li><strong>Application type</strong> → Select <strong>Web application</strong></li>
+<li>Add your <strong>Authorized redirect URIs</strong> (e.g., <code>http://localhost:3000/auth/google/callback</code>)</li>
+<li>Click <strong>Create</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Copy</strong> your:</p>
+<ul>
+<li><strong>Client ID</strong></li>
+<li><strong>Client Secret</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="2-passportjs-google-strategy-setup"><strong>2. Passport.js Google Strategy Setup</strong></h2>
+<p>Create a file: <code>config/passport.js</code></p>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../models/user.model"</span>);
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+
+<span class="hljs-keyword">const</span> GoogleStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-google-oauth20"</span>).Strategy;
+
+passport.use(
+  <span class="hljs-keyword">new</span> GoogleStrategy(
+    {
+      <span class="hljs-attr">clientID</span>: process.env.GOOGLE_CLIENT_ID,
+      <span class="hljs-attr">clientSecret</span>: process.env.GOOGLE_CLIENT_SECRET,
+      <span class="hljs-attr">callbackURL</span>: <span class="hljs-string">"http://localhost:5000/auth/google/callback"</span>,
+    },
+    <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">accessToken, refreshToken, profile, cb</span>) </span>{
+      User.findOne({ <span class="hljs-attr">googleId</span>: profile.id }, (err, user) =&gt; {
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> cb(err, <span class="hljs-literal">null</span>);
+
+        <span class="hljs-comment">// If user doesn't exist → create new user</span>
+        <span class="hljs-keyword">if</span> (!user) {
+          <span class="hljs-keyword">let</span> newUser = <span class="hljs-keyword">new</span> User({
+            <span class="hljs-attr">googleId</span>: profile.id,
+            <span class="hljs-attr">username</span>: profile.displayName,
+          });
+          newUser.save();
+          <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, newUser);
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-comment">// If user exists → return user</span>
+          <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, user);
+        }
+      });
+    }
+  )
+);
+
+<span class="hljs-comment">// Create session ID when user logs in</span>
+passport.serializeUser(<span class="hljs-function">(<span class="hljs-params">user, done</span>) =&gt;</span> {
+  done(<span class="hljs-literal">null</span>, user.id);
+});
+
+<span class="hljs-comment">// Retrieve user from session ID</span>
+passport.deserializeUser(<span class="hljs-keyword">async</span> (id, done) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findById(id);
+    done(<span class="hljs-literal">null</span>, user);
+  } <span class="hljs-keyword">catch</span> (error) {
+    done(error, <span class="hljs-literal">false</span>);
+  }
+});
+</div></code></pre>
+<hr>
+<h2 id="3-appjs-setup"><strong>3. app.js Setup</strong></h2>
+<p>Since registration happens automatically when logging in with Google,
+we <strong>don’t need</strong> a <code>/register</code> route.</p>
+<p>Add these routes for Google login:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Step 1 — Start Google Authentication</span>
+app.get(
+  <span class="hljs-string">"/auth/google"</span>,
+  passport.authenticate(<span class="hljs-string">"google"</span>, { <span class="hljs-attr">scope</span>: [<span class="hljs-string">"profile"</span>] })
+);
+
+<span class="hljs-comment">// Step 2 — Google Callback URL</span>
+app.get(
+  <span class="hljs-string">"/auth/google/callback"</span>,
+  passport.authenticate(<span class="hljs-string">"google"</span>, {
+    <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">"/login"</span>,
+    <span class="hljs-attr">successRedirect</span>: <span class="hljs-string">"/profile"</span>, <span class="hljs-comment">// Redirect after successful login</span>
+  })
+);
+</div></code></pre>
+<hr>
+<h2 id="4-flow-summary"><strong>4. Flow Summary</strong></h2>
+<ol>
+<li>
+<p>User clicks <strong>&quot;Login with Google&quot;</strong>.</p>
+</li>
+<li>
+<p>Redirects to Google for login.</p>
+</li>
+<li>
+<p>Google sends the user back to <code>/auth/google/callback</code> with their profile data.</p>
+</li>
+<li>
+<p>Passport:</p>
+<ul>
+<li>Checks if the user exists in DB.</li>
+<li>If not, creates a new one.</li>
+<li>Saves session.</li>
+</ul>
+</li>
+<li>
+<p>User is redirected to <code>/profile</code>.</p>
+</li>
+</ol>
+<hr>
+<h2 id="5-reference"><strong>5. Reference</strong></h2>
+<p>For complete example code, check:
+<a href="https://github.com/anisul-Islam/web-authentication">https://github.com/anisul-Islam/web-authentication</a></p>
+<hr>
+<p align="center">
+  <strong>Thank You</strong><br>
+</p>
+</body>
+</html>

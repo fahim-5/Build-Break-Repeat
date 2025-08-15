@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>authentication.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>12-08-2025</sub>
+</p>
+<h2 id="authentication">Authentication</h2>
+<ul>
+<li>session vs token based authentication theory</li>
+<li>Cookie</li>
+<li>Passport local strategy session base</li>
+</ul>
+<hr>
+<br>
+<br>
+<h1 id="session-vs-token-based-authentication"><strong>Session vs token based authentication</strong></h1>
+<br>
+<h2 id="1-session-based-authentication"><strong>1. Session-Based Authentication</strong></h2>
+<ul>
+<li>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>User logs in → Server verifies credentials.</li>
+<li>Server creates a <strong>session</strong> in its database/memory (storing user ID, roles, etc.).</li>
+<li>Server sends a <strong>session ID</strong> (usually via a cookie) to the browser.</li>
+<li>On each request, the browser automatically sends that cookie → server looks up the session in memory → verifies the user.</li>
+</ol>
+</li>
+<li>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li><strong>Stateful</strong> → server must store session data.</li>
+<li>Works well for <strong>web apps</strong> where server memory can handle it.</li>
+<li>If server restarts, sessions can be lost unless stored in DB/Redis.</li>
+<li>Scaling requires <strong>session sharing</strong> across servers (sticky sessions or centralized storage).</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-token-based-authentication"><strong>2. Token-Based Authentication</strong></h2>
+<ul>
+<li>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>User logs in → Server verifies credentials.</li>
+<li>Server generates a <strong>token</strong> (e.g., JWT) containing user data &amp; signature.</li>
+<li>Token is sent to the client (usually stored in localStorage or cookies).</li>
+<li>On each request, client sends token in the <em><strong>Authorization</strong></em> header → server <strong>validates the token</strong> without looking up session storage.</li>
+</ol>
+</li>
+<li>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li><strong>Stateless</strong> → server does <strong>not</strong> store authentication info.</li>
+<li>Ideal for <strong>distributed systems</strong> &amp; <strong>APIs</strong>.</li>
+<li>Scaling is easier (no shared session store needed).</li>
+<li>If token is stolen, attacker can use it until it expires (unless you implement revocation).</li>
+</ul>
+</li>
+</ul>
+<h3 id="quick-table"><strong>Quick Table:</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Session-Based</th>
+<th>Token-Based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage</td>
+<td>On server</td>
+<td>On client</td>
+</tr>
+<tr>
+<td>Server State</td>
+<td>Stateful</td>
+<td>Stateless</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Harder</td>
+<td>Easier</td>
+</tr>
+<tr>
+<td>Common Format</td>
+<td>Session ID (random)</td>
+<td>JWT or similar</td>
+</tr>
+<tr>
+<td>Best For</td>
+<td>Traditional web apps</td>
+<td>APIs, mobile apps, microservices</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pro Tip:</strong></p>
+<ul>
+<li>Use <strong>sessions</strong> for classic server-rendered apps with few servers.</li>
+<li>Use <strong>tokens</strong> for modern, scalable, API-driven architectures.</li>
+</ul>
+<hr>
+<h1 id="cookies"><strong>Cookies</strong></h1>
+<br>
+<h2 id="1-what-is-a-cookie"><strong>1. What is a Cookie?</strong></h2>
+<p>A <strong>cookie</strong> is a small piece of data that a server sends to the browser, which the browser stores and sends back with every request to the same server.
+They’re mostly used for:</p>
+<ul>
+<li><strong>Authentication</strong> (storing session IDs or JWTs)</li>
+<li><strong>User preferences</strong> (theme, language)</li>
+<li><strong>Tracking</strong> (analytics, ads)</li>
+</ul>
+<hr>
+<h2 id="2-cookie-lifecycle"><strong>2. Cookie Lifecycle</strong></h2>
+<ol>
+<li>
+<p><strong>Server sets it</strong></p>
+<ul>
+<li>
+<p>In an HTTP response header:</p>
+<pre class="hljs"><code><div>Set-Cookie: sessionId=abc123; Path=/; HttpOnly
+</div></code></pre>
+</li>
+<li>
+<p>Or via JavaScript:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">document</span>.cookie = <span class="hljs-string">"theme=dark"</span>;
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Browser stores it</strong> (in memory or on disk)</p>
+</li>
+<li>
+<p><strong>Browser sends it back</strong> automatically in every request to matching domain/path:</p>
+<pre class="hljs"><code><div>Cookie: sessionId=abc123; theme=dark
+</div></code></pre>
+</li>
+</ol>
+<h2 id="3-cookie-properties"><strong>3. Cookie Properties</strong></h2>
+<p>Cookies have <strong>flags</strong> that control their behavior:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name=Value</strong></td>
+<td>The actual data stored.</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Which domain can access it.</td>
+</tr>
+<tr>
+<td><strong>Path</strong></td>
+<td>URL path where the cookie is valid.</td>
+</tr>
+<tr>
+<td><strong>Expires / Max-Age</strong></td>
+<td>Lifetime (persistent or session).</td>
+</tr>
+<tr>
+<td><strong>HttpOnly</strong></td>
+<td>Blocks JavaScript access → prevents XSS theft.</td>
+</tr>
+<tr>
+<td><strong>Secure</strong></td>
+<td>Sends only over HTTPS.</td>
+</tr>
+<tr>
+<td><strong>SameSite</strong></td>
+<td>Controls cross-site requests: <br> - <em><strong>Strict</strong></em>→ only same site <br> - <em><strong>Lax</strong></em> → some cross-site allowed <br> - <em><strong>None</strong></em> → cross-site allowed, must have <em><strong>Secure</strong></em>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-types-of-cookies"><strong>4. Types of Cookies</strong></h2>
+<ol>
+<li><strong>Session Cookie</strong> – stored in memory, deleted when browser closes.</li>
+<li><strong>Persistent Cookie</strong> – stored on disk, survives browser restarts (until <em><strong>Expires<code>/</code>Max-Age</strong></em>).</li>
+<li><strong>First-party Cookie</strong> – set by the site you’re visiting.</li>
+<li><strong>Third-party Cookie</strong> – set by another domain (ads, tracking).</li>
+<li><strong>HttpOnly Cookie</strong> – only accessible by the server.</li>
+<li><strong>Secure Cookie</strong> – only sent over HTTPS.</li>
+</ol>
+<h2 id="5-cookies-vs-localstoragesessionstorage"><strong>5. Cookies vs LocalStorage/SessionStorage</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Cookies</th>
+<th>LocalStorage</th>
+<th>SessionStorage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sent with every request</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Storage limit</td>
+<td>~4KB</td>
+<td>~5–10MB</td>
+<td>~5–10MB</td>
+</tr>
+<tr>
+<td>Expiry</td>
+<td>Custom</td>
+<td>Manual</td>
+<td>Until tab closes</td>
+</tr>
+<tr>
+<td>Accessible by JS</td>
+<td>✅ (unless HttpOnly)</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-security-concerns"><strong>6. Security Concerns</strong></h2>
+<ul>
+<li><strong>XSS (Cross-Site Scripting)</strong> → attacker steals cookies via JS.
+✅ Fix: Use <em><strong>HttpOnly</strong></em> and sanitize input.</li>
+<li><strong>CSRF (Cross-Site Request Forgery)</strong> → attacker tricks browser into sending cookies to server.
+✅ Fix: Use <em><strong>SameSite</strong></em> and CSRF tokens.</li>
+<li><strong>Session Hijacking</strong> → cookie theft from insecure networks.
+✅ Fix: Use <em><strong>Secure</strong></em> and HTTPS.</li>
+</ul>
+<h2 id="7-pro-dev-tips"><strong>7. Pro Dev Tips</strong></h2>
+<ul>
+<li>For <strong>auth</strong>, store <strong>session IDs or JWTs</strong> in <strong>HttpOnly, Secure cookies</strong> instead of <em><strong>localStorage</strong></em> (safer from XSS).</li>
+<li>Set <em><strong>SameSite=Lax</strong></em> or <em><strong>Strict</strong></em> to prevent CSRF.</li>
+<li>Avoid <strong>third-party cookies</strong> unless absolutely needed (many browsers block them now).</li>
+<li>Keep cookie data <strong>small</strong> (4KB max) — store large data server-side.</li>
+</ul>
+<hr>
+<p>Here’s your text rewritten cleanly, fixed typos, and formatted properly:</p>
+<hr>
+<br>
+<br>
+<h1 id="passport-local-strategy-session-based"><strong>Passport Local Strategy (Session-Based)</strong></h1>
+<br>
+<h2 id="create-and-set-session">Create and Set Session</h2>
+<hr>
+<p><strong>1. Passport-local</strong></p>
+<ul>
+<li>A <strong>Passport.js strategy</strong> for authenticating with a username and password (local auth, no OAuth).</li>
+<li>Used for login/signup logic without external providers.</li>
+</ul>
+<p><strong>2. express-session</strong></p>
+<ul>
+<li>Middleware that creates and manages <strong>server-side sessions</strong> for storing user data (like logged-in status).</li>
+<li>Works by sending a session ID cookie to the client.</li>
+</ul>
+<hr>
+<h2 id="how-to-use-them-together-short-gist">How to Use Them Together (Short Gist)</h2>
+<h3 id="1-install-packages-3-packages">1. Install packages [3 packages]</h3>
+<pre class="hljs"><code><div>npm install passport passport-local express-session connect-mongo
+</div></code></pre>
+<hr>
+<h3 id="2-import-packages">2. Import packages</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+<span class="hljs-keyword">const</span> LocalStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-local"</span>).Strategy;
+<span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express-session"</span>);
+<span class="hljs-keyword">const</span> MongoStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">"connect-mongo"</span>);
+</div></code></pre>
+<hr>
+<h3 id="3-configure-express-session">3. Configure <em><strong>express-session</strong></em></h3>
+<pre class="hljs"><code><div>app.set(<span class="hljs-string">'trust proxy'</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// trust first proxy</span>
+
+app.use(session({
+  <span class="hljs-attr">secret</span>: <span class="hljs-string">'keyboard cat'</span>,  <span class="hljs-comment">// Change this to a strong secret</span>
+  <span class="hljs-attr">resave</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">saveUninitialized</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">store</span>: MongoStore.create({
+    <span class="hljs-attr">mongoUrl</span>: process.env.MONGOURL, <span class="hljs-comment">// MongoDB connection URL</span>
+    <span class="hljs-attr">collectionName</span>: <span class="hljs-string">"sessions"</span>      <span class="hljs-comment">// Collection name in MongoDB</span>
+  })
+  <span class="hljs-comment">// cookie: { secure: true } // Uncomment if using HTTPS</span>
+}));
+</div></code></pre>
+<hr>
+<p>✅ <strong>Notes:</strong></p>
+<ul>
+<li>
+<p><em><strong>connect-mongo</strong></em> is the session store for MongoDB.</p>
+</li>
+<li>
+<p><em><strong>mongoUrl</strong></em> should be set in your <em><strong>.env</strong></em> file. Example:</p>
+<pre class="hljs"><code><div>MONGOURL=mongodb://localhost:27017/mydatabase
+</div></code></pre>
+</li>
+<li>
+<p>Make sure to use <em><strong>cookie: { secure: true }</strong></em> only if your app runs on HTTPS.</p>
+</li>
+</ul>
+<hr>
+<h2 id="setting-up-passport-local-strategy"><strong>Setting Up Passport Local Strategy</strong></h2>
+<h3 id="1-install-required-packages">1. Install required packages</h3>
+<pre class="hljs"><code><div>npm install passport passport-local bcrypt
+</div></code></pre>
+<h3 id="2-initialize-passport-in-your-express-app">2. Initialize Passport in your Express app</h3>
+<p>Before using <em><strong>passport-local</strong></em>, you must initialize Passport and enable session support:</p>
+<pre class="hljs"><code><div>app.use(passport.initialize());
+app.use(passport.session());
+</div></code></pre>
+<hr>
+<h3 id="3-create-a-separate-passportjs-configuration-file-in-the-config-folder">3. Create a separate <em><strong>passport.js</strong></em> configuration file in the config folder</h3>
+<p>In this file, you will:</p>
+<ul>
+<li>Import <em><strong>passport</strong></em> and <em><strong>passport-local</strong></em></li>
+<li>Import your <strong>User</strong> model</li>
+<li>Import <strong>bcrypt</strong> for password hashing</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+<span class="hljs-keyword">const</span> LocalStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-local"</span>).Strategy;
+<span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"bcrypt"</span>);
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./models/User"</span>); <span class="hljs-comment">// Your User model</span>
+</div></code></pre>
+<hr>
+<h3 id="4-configure-the-local-strategy">4. Configure the Local Strategy</h3>
+<p>The default <em><strong>LocalStrategy</strong></em> from Passport docs:</p>
+<pre class="hljs"><code><div>passport.use(<span class="hljs-keyword">new</span> LocalStrategy(
+  <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">username, password, done</span>) </span>{
+    User.findOne({ <span class="hljs-attr">username</span>: username }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, user</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> done(err); }
+      <span class="hljs-keyword">if</span> (!user) { <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>); }
+      <span class="hljs-keyword">if</span> (!user.verifyPassword(password)) { <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>); }
+      <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, user);
+    });
+  }
+));
+</div></code></pre>
+<p><strong>Modified version with async/await &amp; bcrypt:</strong></p>
+<pre class="hljs"><code><div>passport.use(
+  <span class="hljs-keyword">new</span> LocalStrategy(<span class="hljs-keyword">async</span> (username, password, done) =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ username });
+      <span class="hljs-keyword">if</span> (!user) {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>, { <span class="hljs-attr">message</span>: <span class="hljs-string">"Incorrect username"</span> });
+      }
+
+      <span class="hljs-keyword">const</span> isMatch = <span class="hljs-keyword">await</span> bcrypt.compare(password, user.password);
+      <span class="hljs-keyword">if</span> (!isMatch) {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>, { <span class="hljs-attr">message</span>: <span class="hljs-string">"Incorrect password"</span> });
+      }
+
+      <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, user);
+    } <span class="hljs-keyword">catch</span> (err) {
+      <span class="hljs-keyword">return</span> done(err);
+    }
+  })
+);
+</div></code></pre>
+<hr>
+<h3 id="5-serialize--deserialize-user">5. Serialize &amp; Deserialize User</h3>
+<p>These functions handle how user data is stored in and retrieved from the session.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Create session ID from user</span>
+passport.serializeUser(<span class="hljs-function">(<span class="hljs-params">user, done</span>) =&gt;</span> {
+  done(<span class="hljs-literal">null</span>, user.id);
+});
+
+<span class="hljs-comment">// Find user from session ID</span>
+passport.deserializeUser(<span class="hljs-keyword">async</span> (id, done) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findById(id);
+    done(<span class="hljs-literal">null</span>, user);
+  } <span class="hljs-keyword">catch</span> (error) {
+    done(error, <span class="hljs-literal">false</span>);
+  }
+});
+</div></code></pre>
+<hr>
+<p>✅ <strong>Summary:</strong></p>
+<ol>
+<li>Initialize Passport in your Express app.</li>
+<li>Create a <em><strong>passport.js</strong></em> file with your strategy and serialize/deserialize functions.</li>
+<li>Use <em><strong>bcrypt</strong></em> to compare hashed passwords.</li>
+<li>Store the session in MongoDB with <em><strong>connect-mongo</strong></em> for persistence.</li>
+</ol>
+<hr>
+<br>
+<br>
+<h1 id="login-users"><strong>Login Users</strong></h1>
+<br>
+<p>We can copy this code from the <strong>Passport-local</strong> documentation:</p>
+<pre class="hljs"><code><div>app.post(<span class="hljs-string">'/login'</span>, 
+  passport.authenticate(<span class="hljs-string">'local'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }),
+  <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    res.redirect(<span class="hljs-string">'/'</span>);
+  });
+</div></code></pre>
+<hr>
+<h3 id="modified-version-with-profile-routes"><strong>Modified Version with profile routes</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Login: POST</span>
+app.post(
+  <span class="hljs-string">"/login"</span>,
+  passport.authenticate(<span class="hljs-string">"local"</span>, {
+    <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">"/login"</span>,
+    <span class="hljs-attr">successRedirect</span>: <span class="hljs-string">"/profile"</span>,
+  })
+);
+</div></code></pre>
+<hr>
+<p>✅ <strong>Tip:</strong></p>
+<ul>
+<li><em><strong>failureRedirect</strong></em> → Redirects if authentication fails.</li>
+<li><em><strong>successRedirect</strong></em> → Redirects if authentication succeeds.</li>
+<li>You can also add <em><strong>{ failureFlash: true }</strong></em> if using <em><strong>connect-flash</strong></em> for error messages.</li>
+</ul>
+<br>
+<br>
+<h1 id="protecting-the-profile-route"><strong>Protecting the Profile Route</strong></h1>
+<br>
+<p>To make sure only authenticated users can access the profile route, we add a middleware check before rendering:</p>
+<ul>
+<li>Create the <em><strong>checkAuthenticated</strong></em> middleware like this:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkAuthenticated</span>(<span class="hljs-params">req, res, next</span>) </span>{
+  <span class="hljs-keyword">if</span> (req.isAuthenticated()) {
+    <span class="hljs-keyword">return</span> next();
+  }
+  res.redirect(<span class="hljs-string">"/login"</span>);
+}
+</div></code></pre>
+<p>Now we can use this</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Profile protected route</span>
+app.get(<span class="hljs-string">"/profile"</span>, checkAuthenticated, (req, res) =&gt; {
+  res.render(<span class="hljs-string">"profile"</span>);
+});
+</div></code></pre>
+<p>✅ Now, only logged-in users can access <em><strong>/profile</strong></em>.</p>
+<p>Before showing the login page, we can check if the user is already logged in:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// this is a middilewere</span>
+<span class="hljs-keyword">const</span> checkLoggedIn = <span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (req.isAuthenticated()) {
+    <span class="hljs-keyword">return</span> res.redirect(<span class="hljs-string">"/profile"</span>);
+  }
+  next();
+};
+</div></code></pre>
+<p>Now we can use this</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Login: GET</span>
+app.get(<span class="hljs-string">"/login"</span>, checkLoggedIn, (req, res) =&gt; {
+  res.render(<span class="hljs-string">"login"</span>);
+});
+</div></code></pre>
+<hr>
+<h1 id="logging-out-users"><strong>Logging Out Users</strong></h1>
+<p>For logging out, we can use <em><strong>req.logout()</strong></em> provided by Passport:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Logout route</span>
+app.get(<span class="hljs-string">"/logout"</span>, (req, res, next) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    req.logout(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">return</span> next(err);
+      }
+      res.redirect(<span class="hljs-string">"/"</span>);
+    });
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).send(error.message);
+  }
+});
+</div></code></pre>
+<hr>
+<h2 id="summary"><strong>Summary</strong></h2>
+<ul>
+<li>
+<p><strong>Session-Based</strong>:</p>
+<ul>
+<li>Server stores user data in memory/DB → sends session ID in cookie.</li>
+<li>Stateful → needs shared storage if scaling.</li>
+<li>Best for server-rendered apps.</li>
+</ul>
+</li>
+<li>
+<p><strong>Token-Based</strong>:</p>
+<ul>
+<li>Server sends signed token (e.g., JWT) to client.</li>
+<li>Stateless → no server storage needed.</li>
+<li>Best for APIs, mobile, distributed systems.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-cookies"><strong>2. Cookies</strong></h2>
+<ul>
+<li>Small data stored in browser → sent with each request.</li>
+<li>Used for auth, preferences, tracking.</li>
+<li>Properties: Name=Value, Domain, Path, Expiry, HttpOnly, Secure, SameSite.</li>
+<li>Types: Session, Persistent, First/Third-party, HttpOnly, Secure.</li>
+<li><strong>Security</strong>: Use HttpOnly, Secure, SameSite; protect from XSS &amp; CSRF.</li>
+<li>Auth best practice: Store tokens/session IDs in HttpOnly Secure cookies.</li>
+</ul>
+<hr>
+<h2 id="3-passport-local-strategy-session-based-auth"><strong>3. Passport Local Strategy (Session-Based Auth)</strong></h2>
+<ul>
+<li><strong>passport-local</strong>: username/password login.</li>
+<li><strong>express-session</strong>: manages server-side sessions.</li>
+<li><strong>connect-mongo</strong>: stores sessions in MongoDB for persistence.</li>
+</ul>
+<p><strong>Setup steps:</strong></p>
+<ol>
+<li>
+<p>Install packages: <em><strong>passport</strong></em>, <em><strong>passport-local</strong></em>, <em><strong>express-session</strong></em>, <em><strong>connect-mongo</strong></em>, <em><strong>bcrypt</strong></em>.</p>
+</li>
+<li>
+<p>Configure <em><strong>express-session</strong></em> with secret &amp; MongoStore.</p>
+</li>
+<li>
+<p>Initialize passport &amp; session middleware.</p>
+</li>
+<li>
+<p>Create <em><strong>passport.js</strong></em>:</p>
+<ul>
+<li>Define LocalStrategy (check user &amp; compare password with bcrypt).</li>
+<li>Serialize/deserialize user.</li>
+</ul>
+</li>
+<li>
+<p>Login route: <em><strong>passport.authenticate('local', { failureRedirect, successRedirect })</strong></em>.</p>
+</li>
+<li>
+<p>Protect routes with <em><strong>checkAuthenticated</strong></em> middleware.</p>
+</li>
+<li>
+<p>Redirect logged-in users from login page with <em><strong>checkLoggedIn</strong></em>.</p>
+</li>
+<li>
+<p>Logout with <em><strong>req.logout()</strong></em>.</p>
+</li>
+</ol>
+<hr>
+<hr>
+<blockquote>
+<p>For full source code, detailed examples, and additional resources, please visit the official GitHub repository:
+<a href="https://github.com/anisul-Islam/web-authentication">anisul-Islam/web-authentication</a></p>
+</blockquote>
+<hr>
+<p align="center">
+  <strong>Thank you</strong><br>
+</p>
+
+</body>
+</html>
