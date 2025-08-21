@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Git_&_GitHub.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>20-08-2025</sub>
+</p>
+<hr>
+<br>
+<h2 id="%F0%9F%93%82-full-mvc-file-structure-nodejs--express">📂 Full MVC File Structure (Node.js + Express)</h2>
+<pre class="hljs"><code><div>project-root/
+│── package.json
+│── .env
+│── .gitignore
+│── server.js              # Entry point
+│
+├── config/
+│   ├── db.js              # Database connection (MongoDB/MySQL etc.)
+│   ├── passport.js        # Passport strategies (if using authentication)
+│   └── logger.js          # Logger config (optional, winston/morgan)
+│
+├── src/
+│   ├── controllers/       # Handle requests, call services/models
+│   │   ├── auth.controller.js
+│   │   ├── user.controller.js
+│   │   └── post.controller.js
+│   │
+│   ├── models/            # Database schemas / ORM models
+│   │   ├── user.model.js
+│   │   └── post.model.js
+│   │
+│   ├── routes/            # Routes map (API endpoints)
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   └── post.routes.js
+│   │
+│   ├── services/          # Business logic (between controller &amp; model)
+│   │   ├── auth.service.js
+│   │   ├── user.service.js
+│   │   └── post.service.js
+│   │
+│   ├── middlewares/       # Auth, validation, error handling
+│   │   ├── auth.middleware.js
+│   │   ├── error.middleware.js
+│   │   └── validation.middleware.js
+│   │
+│   ├── utils/             # Helper functions (tokens, email, etc.)
+│   │   ├── jwt.utils.js
+│   │   ├── email.utils.js
+│   │   └── response.utils.js
+│   │
+│   ├── validations/       # Joi/Yup validation schemas
+│   │   ├── auth.validation.js
+│   │   └── user.validation.js
+│   │
+│   └── app.js             # Express app config (middleware, routes, etc.)
+│
+├── tests/                 # Unit &amp; integration tests
+│   ├── auth.test.js
+│   └── user.test.js
+│
+└── public/                # Static assets (images, css, js if serving frontend)
+    └── uploads/           # File uploads (if any)
+</div></code></pre>
+<hr>
+<h2 id="%E2%9A%A1-explanation-of-folders">⚡ Explanation of Folders</h2>
+<ul>
+<li><strong>server.js</strong> → Starts the server, loads <code>app.js</code>.</li>
+<li><strong>config/</strong> → Database config, passport strategies, logger.</li>
+<li><strong>controllers/</strong> → Handle <strong>incoming requests</strong> and call services.</li>
+<li><strong>models/</strong> → Define schemas (MongoDB Mongoose) or ORM models (Sequelize).</li>
+<li><strong>routes/</strong> → Define API endpoints (e.g., <code>/api/users</code>, <code>/api/auth</code>).</li>
+<li><strong>services/</strong> → Core business logic (e.g., user registration, hashing).</li>
+<li><strong>middlewares/</strong> → Authentication, error handling, validation middleware.</li>
+<li><strong>utils/</strong> → Helper functions like JWT generator, email sender.</li>
+<li><strong>validations/</strong> → Joi or Yup validation schemas for requests.</li>
+<li><strong>tests/</strong> → Unit &amp; integration tests with Jest/Mocha.</li>
+<li><strong>public/</strong> → Static files like uploads, frontend assets.</li>
+</ul>
+<hr>
+<p>Let see an example</p>
+<hr>
+<h2 id="%F0%9F%93%82-final-file-structure">📂 Final File Structure</h2>
+<pre class="hljs"><code><div>project-root/
+│── server.js
+│── package.json
+│── .gitignore
+│
+├── controllers/
+│   ├── users.controller.js
+│   └── products.controller.js
+│
+├── models/
+│   ├── users.model.js
+│   └── products.model.js
+│
+├── routes/
+│   ├── users.route.js
+│   └── products.route.js
+│
+├── views/
+│   ├── index.html
+│   └── product.html
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%93%84-file-contents">📄 File Contents</h2>
+<h3 id="serverjs"><strong>server.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+
+<span class="hljs-keyword">const</span> userRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./routes/users.route"</span>);
+<span class="hljs-keyword">const</span> productRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./routes/products.route"</span>);
+
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> PORT = <span class="hljs-number">3000</span>;
+
+<span class="hljs-comment">// middleware</span>
+app.use(express.urlencoded({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> }));
+
+<span class="hljs-comment">// routes</span>
+app.use(userRouter);
+app.use(productRouter);
+
+<span class="hljs-comment">// 404 handler</span>
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.status(<span class="hljs-number">404</span>).json({
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"Resource not found"</span>,
+  });
+});
+
+<span class="hljs-comment">// start server</span>
+app.listen(PORT, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server is running at http://localhost:<span class="hljs-subst">${PORT}</span>`</span>);
+});
+</div></code></pre>
+<hr>
+<h3 id="controllersuserscontrollerjs"><strong>controllers/users.controller.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">"path"</span>);
+<span class="hljs-keyword">const</span> users = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../models/users.model"</span>);
+
+exports.getUsers = <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.sendFile(path.join(__dirname, <span class="hljs-string">"../views/index.html"</span>));
+};
+
+exports.saveUser = <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> name = req.body.name;
+  <span class="hljs-keyword">const</span> age = <span class="hljs-built_in">Number</span>(req.body.age);
+
+  <span class="hljs-keyword">const</span> user = { name, age };
+  users.push(user);
+
+  res.status(<span class="hljs-number">201</span>).json({
+    <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>,
+    users,
+  });
+};
+</div></code></pre>
+<hr>
+<h3 id="controllersproductscontrollerjs"><strong>controllers/products.controller.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">"path"</span>);
+<span class="hljs-keyword">const</span> products = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../models/products.model"</span>);
+
+exports.getProducts = <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.sendFile(path.join(__dirname, <span class="hljs-string">"../views/product.html"</span>));
+};
+
+exports.saveProduct = <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> name = req.body.name;
+  <span class="hljs-keyword">const</span> price = <span class="hljs-built_in">Number</span>(req.body.price);
+
+  <span class="hljs-keyword">const</span> product = { name, price };
+  products.push(product);
+
+  res.status(<span class="hljs-number">201</span>).json({
+    <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>,
+    products,
+  });
+};
+</div></code></pre>
+<hr>
+<h3 id="modelsusersmodeljs"><strong>models/users.model.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> users = [
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"Anisul Islam"</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">31</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"Sufia Begum"</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">47</span> },
+];
+
+<span class="hljs-built_in">module</span>.exports = users;
+</div></code></pre>
+<hr>
+<h3 id="modelsproductsmodeljs"><strong>models/products.model.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> products = [
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"Keya Soap"</span>, <span class="hljs-attr">price</span>: <span class="hljs-number">31</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"Milk"</span>, <span class="hljs-attr">price</span>: <span class="hljs-number">47</span> },
+];
+
+<span class="hljs-built_in">module</span>.exports = products;
+</div></code></pre>
+<hr>
+<h3 id="routesusersroutejs"><strong>routes/users.route.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> { getUsers, saveUser } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../controllers/users.controller"</span>);
+
+<span class="hljs-keyword">const</span> router = express.Router();
+
+router.get(<span class="hljs-string">"/users"</span>, getUsers);
+router.post(<span class="hljs-string">"/users"</span>, saveUser);
+
+<span class="hljs-built_in">module</span>.exports = router;
+</div></code></pre>
+<hr>
+<h3 id="routesproductsroutejs"><strong>routes/products.route.js</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> { getProducts, saveProduct } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../controllers/products.controller"</span>);
+
+<span class="hljs-keyword">const</span> router = express.Router();
+
+router.get(<span class="hljs-string">"/products"</span>, getProducts);
+router.post(<span class="hljs-string">"/products"</span>, saveProduct);
+
+<span class="hljs-built_in">module</span>.exports = router;
+</div></code></pre>
+<hr>
+<h3 id="viewsindexhtml"><strong>views/index.html</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>User<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"/users"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter Name"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"age"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter Age"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Save User<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<hr>
+<h3 id="viewsproducthtml"><strong>views/product.html</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Product<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"/products"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter Product Name"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"price"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter Price"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Save Product<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<hr>
+<p>👉 Now you have a <strong>complete MVC architecture</strong>:</p>
+<ul>
+<li><code>controllers/</code> → handles request logic</li>
+<li><code>models/</code> → holds data</li>
+<li><code>routes/</code> → maps routes to controllers</li>
+<li><code>views/</code> → simple HTML forms</li>
+<li><code>server.js</code> → app entry</li>
+</ul>
+
+</body>
+</html>

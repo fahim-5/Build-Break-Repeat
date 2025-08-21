@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Git_&_GitHub.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>20-08-2025</sub>
+</p>
+<h2 id="git-and-github">Git and GitHub</h2>
+<ul>
+<li>Intorduction</li>
+<li>Why we need Git and GitHUB</li>
+<li>Basic Terminal Commands</li>
+<li>Table of differences between Git and GitHub</li>
+<li>Git Configuration</li>
+<li>Generate SSH Key &amp; Connect GitHub</li>
+</ul>
+<hr>
+<br>
+<br>
+<h2 id="introduction"><strong>Introduction</strong></h2>
+<p>Git and GitHub are like the <strong>backbone of modern software development</strong>.</p>
+<ul>
+<li><strong>Git</strong> → a <strong>version control system (VCS)</strong> that lets developers track changes in code, collaborate, and roll back to older versions if needed.</li>
+<li><strong>GitHub</strong> → a <strong>cloud-based platform</strong> built on top of Git, where you can host your repositories, collaborate with others, and showcase your projects to the world.</li>
+</ul>
+<p>Think of Git as your <strong>local diary of code changes</strong>, and GitHub as the <strong>public library</strong> where you store, share, and collaborate.</p>
+<hr>
+<h2 id="why-we-need-git-and-github"><strong>Why We Need Git and GitHub</strong></h2>
+<ol>
+<li><strong>Version Control</strong> → Every change you make in your project is tracked. If something breaks, you can go back to a stable version.</li>
+<li><strong>Collaboration</strong> → Multiple developers can work on the same project without messing up each other’s code.</li>
+<li><strong>Backup &amp; Safety</strong> → With GitHub, your code lives in the cloud. Even if your laptop dies, your code is safe.</li>
+<li><strong>Open Source &amp; Networking</strong> → GitHub allows you to share your work, contribute to others’ projects, and build your developer profile.</li>
+<li><strong>Industry Standard</strong> → Every tech company uses Git/GitHub or similar tools. Knowing it is <strong>essential</strong> for teamwork in real-world software engineering.</li>
+<li><strong>Continuous Deployment/Integration (CI/CD)</strong> → GitHub integrates with tools that help in testing, deployment, and automation.</li>
+</ol>
+<hr>
+<p>Here’s a clear <strong>table of differences between Git and GitHub</strong> 👇</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>Git</strong></th>
+<th><strong>GitHub</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Definition</strong></td>
+<td>A <strong>distributed version control system</strong> used to track changes in source code.</td>
+<td>A <strong>cloud-based hosting platform</strong> for Git repositories.</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Software/tool installed locally on your computer.</td>
+<td>Service/website running on the internet.</td>
+</tr>
+<tr>
+<td><strong>Function</strong></td>
+<td>Manages version history, branching, merging, and local repository operations.</td>
+<td>Provides remote repository hosting, collaboration tools, issue tracking, CI/CD integration, etc.</td>
+</tr>
+<tr>
+<td><strong>Usage Scope</strong></td>
+<td>Used by individual developers or teams to manage code versions locally.</td>
+<td>Used for <strong>sharing repositories</strong>, collaborating with others, and managing open-source projects.</td>
+</tr>
+<tr>
+<td><strong>Works Without Internet?</strong></td>
+<td>Yes ✅ (can be fully used offline).</td>
+<td>No ❌ (requires internet for repository access, collaboration, and syncing).</td>
+</tr>
+<tr>
+<td><strong>Installation</strong></td>
+<td>Must be installed on your machine (e.g., via <code>git-scm.com</code>).</td>
+<td>No installation required, just an account on <a href="https://github.com">github.com</a>.</td>
+</tr>
+<tr>
+<td><strong>Commands</strong></td>
+<td>Uses CLI commands like <code>git init</code>, <code>git commit</code>, <code>git push</code>.</td>
+<td>Provides GUI, web interface, and integrates with Git commands.</td>
+</tr>
+<tr>
+<td><strong>Ownership</strong></td>
+<td>Open-source project maintained by the Git community.</td>
+<td>Owned by Microsoft (acquired in 2018).</td>
+</tr>
+<tr>
+<td><strong>Alternatives</strong></td>
+<td>Mercurial, Subversion (SVN).</td>
+<td>GitLab, Bitbucket.</td>
+</tr>
+</tbody>
+</table>
+<p>👉 In short:</p>
+<ul>
+<li><strong>Git = the tool</strong> (version control system).</li>
+<li><strong>GitHub = the platform</strong> (cloud service to host Git repositories).</li>
+</ul>
+<p>Ah got it ✅ — you mean <strong>basic terminal commands</strong> (Windows CMD/PowerShell vs Linux/Mac Bash) that you should know <strong>before</strong> starting Git &amp; GitHub.
+These are the <em>foundational commands</em> for navigating, managing files, and working in the terminal.</p>
+<p>Here’s the <strong>side-by-side table</strong> 👇</p>
+<hr>
+<h1 id="%F0%9F%93%8C-basic-terminal-commands-windows-vs-linuxmac">📌 Basic Terminal Commands (Windows vs Linux/Mac)</h1>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th><strong>Windows (CMD / PowerShell)</strong></th>
+<th><strong>Linux / Mac (Bash/Zsh)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Show current directory (where am I?)</strong></td>
+<td><code>cd</code></td>
+<td><code>pwd</code></td>
+</tr>
+<tr>
+<td><strong>List files &amp; folders</strong></td>
+<td><code>dir</code></td>
+<td><code>ls</code></td>
+</tr>
+<tr>
+<td><strong>List with details</strong></td>
+<td><code>dir</code></td>
+<td><code>ls -l</code></td>
+</tr>
+<tr>
+<td><strong>List including hidden files</strong></td>
+<td><code>dir /a</code></td>
+<td><code>ls -a</code></td>
+</tr>
+<tr>
+<td><strong>Change directory</strong></td>
+<td><code>cd foldername</code></td>
+<td><code>cd foldername</code></td>
+</tr>
+<tr>
+<td><strong>Go up one folder</strong></td>
+<td><code>cd ..</code></td>
+<td><code>cd ..</code></td>
+</tr>
+<tr>
+<td><strong>Go to home directory</strong></td>
+<td><code>cd %HOMEPATH%</code></td>
+<td><code>cd ~</code></td>
+</tr>
+<tr>
+<td><strong>Clear screen</strong></td>
+<td><code>cls</code></td>
+<td><code>clear</code></td>
+</tr>
+<tr>
+<td><strong>Make new folder</strong></td>
+<td><code>mkdir foldername</code></td>
+<td><code>mkdir foldername</code></td>
+</tr>
+<tr>
+<td><strong>Create new file</strong></td>
+<td><code>type nul &gt; file.txt</code></td>
+<td><code>touch file.txt</code></td>
+</tr>
+<tr>
+<td><strong>View file content</strong></td>
+<td><code>type file.txt</code></td>
+<td><code>cat file.txt</code></td>
+</tr>
+<tr>
+<td><strong>Edit file (simple)</strong></td>
+<td><code>notepad file.txt</code></td>
+<td><code>nano file.txt</code> or <code>vim file.txt</code></td>
+</tr>
+<tr>
+<td><strong>Copy file</strong></td>
+<td><code>copy file.txt D:\backup\</code></td>
+<td><code>cp file.txt ~/backup/</code></td>
+</tr>
+<tr>
+<td><strong>Move / rename file</strong></td>
+<td><code>move old.txt new.txt</code></td>
+<td><code>mv old.txt new.txt</code></td>
+</tr>
+<tr>
+<td><strong>Delete file</strong></td>
+<td><code>del file.txt</code></td>
+<td><code>rm file.txt</code></td>
+</tr>
+<tr>
+<td><strong>Delete folder</strong></td>
+<td><code>rmdir /s foldername</code></td>
+<td><code>rm -r foldername</code></td>
+</tr>
+<tr>
+<td><strong>Check running processes</strong></td>
+<td><code>tasklist</code></td>
+<td><code>ps aux</code></td>
+</tr>
+<tr>
+<td><strong>Kill a process</strong></td>
+<td><code>taskkill /PID &lt;id&gt;</code></td>
+<td><code>kill &lt;pid&gt;</code></td>
+</tr>
+<tr>
+<td><strong>Show network config</strong></td>
+<td><code>ipconfig</code></td>
+<td><code>ifconfig</code> or <code>ip addr</code></td>
+</tr>
+<tr>
+<td><strong>Check internet (ping)</strong></td>
+<td><code>ping google.com</code></td>
+<td><code>ping google.com</code></td>
+</tr>
+<tr>
+<td><strong>Show current user</strong></td>
+<td><code>echo %USERNAME%</code></td>
+<td><code>whoami</code></td>
+</tr>
+<tr>
+<td><strong>Show system info</strong></td>
+<td><code>systeminfo</code></td>
+<td><code>uname -a</code></td>
+</tr>
+<tr>
+<td><strong>Exit terminal</strong></td>
+<td><code>exit</code></td>
+<td><code>exit</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>⚡ Key Takeaway:</p>
+<ul>
+<li><strong>Windows</strong> → <code>dir</code>, <code>copy</code>, <code>move</code>, <code>del</code>, <code>cls</code>.</li>
+<li><strong>Linux/Mac</strong> → <code>ls</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>clear</code>.</li>
+<li>Git works the same on both, but these basics help you <strong>navigate the terminal smoothly</strong>.</li>
+</ul>
+<h1 id="%F0%9F%94%B9-1-global-vs-local-git-configuration">🔹 1. Global vs Local Git Configuration</h1>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Scope</th>
+<th>Where it’s saved</th>
+<th>When used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Global Config</strong></td>
+<td>Applies to <strong>all repositories</strong> for your user account.</td>
+<td><code>~/.gitconfig</code> (Linux/Mac) or <code>C:\Users\YourName\.gitconfig</code> (Windows).</td>
+<td>Default for every repo unless a local config overrides it.</td>
+</tr>
+<tr>
+<td><strong>Local Config</strong></td>
+<td>Applies to <strong>only one repository</strong> (inside that project).</td>
+<td>Stored in <code>.git/config</code> inside that repo folder.</td>
+<td>Overrides global config for that repo.</td>
+</tr>
+</tbody>
+</table>
+<p>👉 Think of it like this:</p>
+<ul>
+<li><strong>Global</strong> = your personal identity across your computer.</li>
+<li><strong>Local</strong> = special identity/settings just for one project.</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%B9-2-configure-git-global">🔹 2. Configure Git (Global)</h1>
+<p>Run these commands <strong>once after installing Git</strong>:</p>
+<pre class="hljs"><code><div>git config --global user.name <span class="hljs-string">"Your Name"</span>
+git config --global user.email <span class="hljs-string">"your@email.com"</span>
+git config --global core.editor <span class="hljs-string">"code --wait"</span>   <span class="hljs-comment"># optional (set VS Code as default editor)</span>
+git config --global init.defaultBranch main     <span class="hljs-comment"># set default branch to main instead of master</span>
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-3-configure-git-local-for-a-project">🔹 3. Configure Git (Local for a project)</h1>
+<p>Inside your project folder:</p>
+<pre class="hljs"><code><div>git config --<span class="hljs-built_in">local</span> user.name <span class="hljs-string">"Project Specific Name"</span>
+git config --<span class="hljs-built_in">local</span> user.email <span class="hljs-string">"project@email.com"</span>
+</div></code></pre>
+<p>👉 Now this project will use these details instead of global ones.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-4-listing-git-config">🔹 4. Listing Git Config</h1>
+<p>Check what’s configured:</p>
+<pre class="hljs"><code><div>git config --list            <span class="hljs-comment"># shows all configs (global + local + system)</span>
+git config --list --global   <span class="hljs-comment"># only global settings</span>
+git config --list --<span class="hljs-built_in">local</span>    <span class="hljs-comment"># only local (must be inside a repo)</span>
+git config --list --system   <span class="hljs-comment"># system-wide (rarely used)</span>
+</div></code></pre>
+<p>Check a single value:</p>
+<pre class="hljs"><code><div>git config user.name
+git config user.email
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-1-unset-global-configuration">🔹 1. Unset Global Configuration</h1>
+<p>If you set a config globally (applies to all repos):</p>
+<pre class="hljs"><code><div>git config --global --<span class="hljs-built_in">unset</span> user.name
+git config --global --<span class="hljs-built_in">unset</span> user.email
+</div></code></pre>
+<p>Example:</p>
+<pre class="hljs"><code><div>git config --global --<span class="hljs-built_in">unset</span> core.editor
+git config --global --<span class="hljs-built_in">unset</span> init.defaultBranch
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-2-unset-local-configuration">🔹 2. Unset Local Configuration</h1>
+<p>If you only want to remove config from <strong>one project</strong>:</p>
+<pre class="hljs"><code><div>git config --<span class="hljs-built_in">local</span> --<span class="hljs-built_in">unset</span> user.name
+git config --<span class="hljs-built_in">local</span> --<span class="hljs-built_in">unset</span> user.email
+</div></code></pre>
+<p>Or any other local setting:</p>
+<pre class="hljs"><code><div>git config --<span class="hljs-built_in">local</span> --<span class="hljs-built_in">unset</span> core.editor
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-generate-ssh-key--connect-github-windows-cmdpowershell">🔹 Generate SSH Key &amp; Connect GitHub (Windows CMD/PowerShell)</h1>
+<h2 id="%E2%9C%85-step-1-open-terminal">✅ Step 1: Open Terminal</h2>
+<ul>
+<li>Press <strong>Windows Key</strong> → type <strong>PowerShell</strong> → open it.
+(You can also use CMD if you like.)</li>
+</ul>
+<hr>
+<h2 id="%E2%9C%85-step-2-check-if-ssh-keys-already-exist">✅ Step 2: Check if SSH keys already exist</h2>
+<p>Run:</p>
+<pre class="hljs"><code><div>dir C:\Users\Fahim\.ssh
+</div></code></pre>
+<ul>
+<li>If you see files like <code>id_ed25519</code> and <code>id_ed25519.pub</code>, you already have a key.</li>
+<li>If nothing is there → continue to generate a new one.</li>
+</ul>
+<hr>
+<h2 id="%E2%9C%85-step-3-generate-a-new-ssh-key">✅ Step 3: Generate a new SSH key</h2>
+<p>Run:</p>
+<pre class="hljs"><code><div>ssh<span class="hljs-literal">-keygen</span> <span class="hljs-literal">-t</span> ed25519 <span class="hljs-literal">-C</span> <span class="hljs-string">"your_email@example.com"</span>
+</div></code></pre>
+<ul>
+<li>Replace <code>&quot;your_email@example.com&quot;</code> with the email you use on GitHub.</li>
+<li>When it asks for <strong>file location</strong>, just press <strong>Enter</strong> (default is fine).</li>
+<li>When it asks for <strong>passphrase</strong>, press <strong>Enter</strong> again (or type one if you want extra security).</li>
+</ul>
+<p>👉 This creates two files in <code>C:\Users\Fahim\.ssh\</code>:</p>
+<ul>
+<li><code>id_ed25519</code> → private key (keep secret 🚫)</li>
+<li><code>id_ed25519.pub</code> → public key (share with GitHub ✅)</li>
+</ul>
+<hr>
+<h2 id="%E2%9C%85-step-4-start-ssh-agent-and-add-your-key">✅ Step 4: Start SSH agent and add your key</h2>
+<p>Run these commands:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">Set-Service</span> ssh<span class="hljs-literal">-agent</span> <span class="hljs-literal">-StartupType</span> Automatic
+<span class="hljs-built_in">Start-Service</span> ssh<span class="hljs-literal">-agent</span>
+ssh<span class="hljs-literal">-add</span> ~\.ssh\id_ed25519
+</div></code></pre>
+<p>👉 This makes Windows remember your key, so you don’t enter passphrase every time.</p>
+<hr>
+<h2 id="%E2%9C%85-step-5-copy-the-public-key">✅ Step 5: Copy the public key</h2>
+<p>Run:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">Get-Content</span> ~\.ssh\id_ed25519.pub | <span class="hljs-built_in">Set-Clipboard</span>
+</div></code></pre>
+<p>👉 Now your key is copied to your clipboard (ready to paste).</p>
+<hr>
+<h2 id="%E2%9C%85-step-6-add-key-to-github">✅ Step 6: Add key to GitHub</h2>
+<ol>
+<li>Go to <a href="https://github.com/settings/keys">GitHub → Settings → SSH and GPG Keys</a></li>
+<li>Click <strong>New SSH Key</strong></li>
+<li>Paste the key from clipboard → Save</li>
+</ol>
+<hr>
+<h2 id="%E2%9C%85-step-7-test-the-connection">✅ Step 7: Test the connection</h2>
+<p>Run:</p>
+<pre class="hljs"><code><div>ssh <span class="hljs-literal">-T</span> git@github.com
+</div></code></pre>
+<ul>
+<li>
+<p>First time: type <strong>yes</strong> when asked about authenticity.</p>
+</li>
+<li>
+<p>Success looks like this:</p>
+<pre class="hljs"><code><div>Hi Fahim! You've successfully authenticated, but GitHub does not provide shell access.
+</div></code></pre>
+</li>
+</ul>
+<hr>
+<br>
+<br>
+<ol>
+<li>Create a working directory</li>
+<li>Create a file inside it</li>
+<li>Do modification</li>
+<li>Add to the <strong>staging area</strong></li>
+<li>Commit to the <strong>local repository</strong></li>
+</ol>
+<p>And I’ll also create a sample <strong>.txt file example</strong> for you.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-1-create-a-working-directory">🔹 Step 1: Create a working directory</h1>
+<pre class="hljs"><code><div>mkdir my-git-project
+<span class="hljs-built_in">cd</span> my-git-project
+</div></code></pre>
+<p>👉 This creates a folder <code>my-git-project</code> and moves inside it.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-2-initialize-a-git-repository">🔹 Step 2: Initialize a Git repository</h1>
+<pre class="hljs"><code><div>git init
+</div></code></pre>
+<p>👉 This creates a new empty <strong>local repository</strong> inside <code>.git</code> folder.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-3-create-a-new-file">🔹 Step 3: Create a new file</h1>
+<pre class="hljs"><code><div><span class="hljs-built_in">echo</span> <span class="hljs-string">"Hello, this is my first Git file."</span> &gt; example.txt
+</div></code></pre>
+<p>👉 This creates a file <code>example.txt</code> with one line of text.</p>
+<p>You can check it:</p>
+<pre class="hljs"><code><div>cat example.txt
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-step-4-check-repository-status">🔹 Step 4: Check repository status</h1>
+<pre class="hljs"><code><div>git status
+</div></code></pre>
+<p>👉 Shows that <code>example.txt</code> is <strong>untracked</strong>.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-5-add-file-to-staging-area">🔹 Step 5: Add file to staging area</h1>
+<pre class="hljs"><code><div>git add example.txt
+</div></code></pre>
+<p>👉 Moves the file from <strong>working directory</strong> → <strong>staging area</strong>.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-6-commit-file-to-local-repository">🔹 Step 6: Commit file to local repository</h1>
+<pre class="hljs"><code><div>git commit -m <span class="hljs-string">"Add first example.txt file"</span>
+</div></code></pre>
+<p>👉 Now the file is saved inside the local Git repository.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-step-7-modify-the-file">🔹 Step 7: Modify the file</h1>
+<pre class="hljs"><code><div><span class="hljs-built_in">echo</span> <span class="hljs-string">"This is my second line in the file."</span> &gt;&gt; example.txt
+</div></code></pre>
+<p>👉 Adds another line to <code>example.txt</code>.</p>
+<p>Check it:</p>
+<pre class="hljs"><code><div>cat example.txt
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-step-8-stage-the-modified-file">🔹 Step 8: Stage the modified file</h1>
+<pre class="hljs"><code><div>git add example.txt
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-step-9-commit-the-changes">🔹 Step 9: Commit the changes</h1>
+<pre class="hljs"><code><div>git commit -m <span class="hljs-string">"Update example.txt with a second line"</span>
+</div></code></pre>
+<hr>
+<p>✅ Now your <code>example.txt</code> went through the full cycle:</p>
+<ul>
+<li>Working directory → <code>git add</code> → Staging area</li>
+<li>Staging area → <code>git commit</code> → Local repository</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%93%84-example-exampletxt-content">📄 Example <code>example.txt</code> content:</h3>
+<p>After step 3:</p>
+<pre class="hljs"><code><div>Hello, this is my first Git file.
+</div></code></pre>
+<p>After step 7:</p>
+<pre class="hljs"><code><div>Hello, this is my first Git file.
+This is my second line in the file.
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-1-make-a-commit">🔹 1. Make a Commit</h1>
+<p>After staging (<code>git add</code>):</p>
+<pre class="hljs"><code><div>git commit -m <span class="hljs-string">"Your commit message"</span>
+</div></code></pre>
+<p>👉 This saves your changes in the <strong>local repo</strong> with a unique <strong>commit ID</strong> (hash).</p>
+<hr>
+<h1 id="%F0%9F%94%B9-2-show-all-commits">🔹 2. Show All Commits</h1>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">log</span>
+</div></code></pre>
+<p>👉 Shows full history (commit id, author, date, message).</p>
+<p>Compact view:</p>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">log</span> --oneline
+</div></code></pre>
+<p>Example:</p>
+<pre class="hljs"><code><div>a3c1b2e Update example.txt with a second line
+b7d9f4a Add first example.txt file
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-3-resetting-commits-types-of-reset">🔹 3. Resetting Commits (Types of Reset)</h1>
+<p>Reset moves <strong>HEAD pointer</strong> to another commit.</p>
+<h3 id="a---soft-reset">(a) <code>--soft</code> reset</h3>
+<pre class="hljs"><code><div>git reset --soft &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Moves HEAD to commit but keeps <strong>changes staged</strong>.
+Useful if you want to change your commit message.</p>
+<hr>
+<h3 id="b---mixed-reset-default">(b) <code>--mixed</code> reset (default)</h3>
+<pre class="hljs"><code><div>git reset --mixed &lt;commit-id&gt;
+<span class="hljs-comment"># or simply</span>
+git reset &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Moves HEAD to commit, <strong>keeps changes in working directory</strong> but unstaged.
+Useful if you want to redo staging.</p>
+<hr>
+<h3 id="c---hard-reset">(c) <code>--hard</code> reset</h3>
+<pre class="hljs"><code><div>git reset --hard &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Moves HEAD to commit and <strong>deletes everything after that</strong> (staged + working directory changes).
+⚠️ Be careful, this permanently removes changes.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-4-remove-a-particular-commit-by-commit-id">🔹 4. Remove a Particular Commit by Commit ID</h1>
+<h3 id="a-if-its-the-latest-commit">(a) If it’s the <strong>latest commit</strong></h3>
+<p>Undo last commit but keep changes in working directory:</p>
+<pre class="hljs"><code><div>git reset --soft HEAD~1
+</div></code></pre>
+<p>Completely remove last commit and changes:</p>
+<pre class="hljs"><code><div>git reset --hard HEAD~1
+</div></code></pre>
+<hr>
+<h3 id="b-if-its-an-older-commit">(b) If it’s an <strong>older commit</strong></h3>
+<p>Use <strong>interactive rebase</strong>:</p>
+<pre class="hljs"><code><div>git rebase -i &lt;commit-id&gt;^
+</div></code></pre>
+<p>Example:</p>
+<pre class="hljs"><code><div>git rebase -i a3c1b2e^
+</div></code></pre>
+<p>It opens an editor:</p>
+<pre class="hljs"><code><div>pick a3c1b2e Update example.txt with a second line
+pick b7d9f4a Add first example.txt file
+</div></code></pre>
+<p>Change <code>pick</code> → <code>drop</code> for the commit you want to remove, then save.</p>
+<hr>
+<h3 id="c-use-git-revert-safer-history-intact">(c) Use <code>git revert</code> (safer, history intact)</h3>
+<pre class="hljs"><code><div>git revert &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Creates a new commit that <strong>undoes</strong> the changes of that commit (does not delete history).</p>
+<hr>
+<h1 id="%F0%9F%94%B9-5-back-to-a-particular-commit">🔹 5. Back to a Particular Commit</h1>
+<p>If you just want to <strong>temporarily check out an old commit</strong>:</p>
+<pre class="hljs"><code><div>git checkout &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Now you’re in <strong>detached HEAD</strong> (not on a branch).</p>
+<p>If you want to create a branch from there:</p>
+<pre class="hljs"><code><div>git checkout -b new-branch-name &lt;commit-id&gt;
+</div></code></pre>
+<p>If you want to make your branch <strong>permanently point to that commit</strong>:</p>
+<pre class="hljs"><code><div>git reset --hard &lt;commit-id&gt;
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-quick-example">🔹 Quick Example</h1>
+<p>Let’s say we have 3 commits:</p>
+<pre class="hljs"><code><div>c1 → Add file
+c2 → Update file
+c3 → Fix typo
+</div></code></pre>
+<ul>
+<li>
+<p>Remove <strong>last commit (c3)</strong>:</p>
+<pre class="hljs"><code><div>git reset --hard HEAD~1
+</div></code></pre>
+</li>
+<li>
+<p>Remove a <strong>middle commit (c2)</strong> but keep others:</p>
+<pre class="hljs"><code><div>git rebase -i c1
+</div></code></pre>
+</li>
+<li>
+<p>Undo changes of commit c2 but keep history:</p>
+<pre class="hljs"><code><div>git revert c2
+</div></code></pre>
+</li>
+<li>
+<p>Go back to commit c1 completely:</p>
+<pre class="hljs"><code><div>git reset --hard c1
+</div></code></pre>
+</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%9A%80-writing-great-git-commit-messages">🚀 Writing Great Git Commit Messages</h1>
+<p>A clean commit history = easier debugging, reviews, and collaboration.</p>
+<hr>
+<h2 id="%F0%9F%94%B9-rules-for-good-commits">🔹 Rules for Good Commits</h2>
+<ul>
+<li>Keep commits <strong>small &amp; focused</strong> (one logical change).</li>
+<li>Use <strong>present tense</strong> → “Add feature” not “Added feature”.</li>
+<li>First line: <strong>≤ 50 chars summary</strong>.</li>
+<li>Add details in body (wrap at 72 chars).</li>
+<li>Explain <strong>what</strong> and <strong>why</strong>, not just how.</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%B9-structure-conventional-commits">🔹 Structure (Conventional Commits)</h2>
+<pre class="hljs"><code><div>&lt;type&gt;(&lt;scope&gt;): &lt;summary&gt;
+
+&lt;body&gt;
+
+&lt;footer&gt;
+</div></code></pre>
+<p><strong>Types:</strong></p>
+<ul>
+<li><code>feat:</code> new feature</li>
+<li><code>fix:</code> bug fix</li>
+<li><code>docs:</code> docs only</li>
+<li><code>style:</code> formatting/no code change</li>
+<li><code>refactor:</code> code improvement</li>
+<li><code>perf:</code> performance boost</li>
+<li><code>test:</code> tests added/updated</li>
+<li><code>chore:</code> maintenance/configs</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%B9-examples">🔹 Examples</h2>
+<p>✅ Simple</p>
+<pre class="hljs"><code><div>fix(auth): handle invalid login token
+</div></code></pre>
+<p>✅ With body</p>
+<pre class="hljs"><code><div>feat(profile): add avatar upload
+
+Users can now upload/update avatars.
+Added validation for image size &amp; format.
+</div></code></pre>
+<p>✅ With issue ref</p>
+<pre class="hljs"><code><div>fix(payment): correct rounding in invoice
+
+Switched to decimal to prevent float errors.
+
+Closes #231
+</div></code></pre>
+<p>❌ Bad</p>
+<pre class="hljs"><code><div>update stuff
+</div></code></pre>
+<p>✅ Good</p>
+<pre class="hljs"><code><div>refactor(db): optimize user lookup query
+
+Replaced subquery with indexed join for faster performance.
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%94%B9-pro-tips">🔹 Pro Tips</h2>
+<ul>
+<li><code>git commit -m &quot;...&quot;</code> → short commits.</li>
+<li><code>git commit</code> → detailed commits.</li>
+<li>Fix last message: <code>git commit --amend</code>.</li>
+<li>Teams often enforce style with <strong>commitlint + husky</strong>.</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%B9-what-is-head-in-git">🔹 What is <code>HEAD</code> in Git?</h1>
+<ul>
+<li><code>HEAD</code> = a <strong>pointer</strong> to your current commit in the repo.</li>
+<li>Normally, <code>HEAD</code> points to the <strong>latest commit on the current branch</strong> (e.g., <code>main</code>).</li>
+<li>If you move around history (older commits), <code>HEAD</code> moves too.</li>
+</ul>
+<p>Think of <code>HEAD</code> as <strong>&quot;where you currently are&quot;</strong> in Git.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-using-git-checkout">🔹 Using <code>git checkout</code></h1>
+<h3 id="1-checkout-a-branch">1) Checkout a branch</h3>
+<pre class="hljs"><code><div>git checkout main
+</div></code></pre>
+<p>👉 Moves <code>HEAD</code> to the <code>main</code> branch (latest commit of <code>main</code>).</p>
+<h3 id="2-checkout-a-specific-commit">2) Checkout a specific commit</h3>
+<pre class="hljs"><code><div>git checkout &lt;commit-id&gt;
+</div></code></pre>
+<p>👉 Moves <code>HEAD</code> directly to that commit (<strong>detached HEAD state</strong>).</p>
+<ul>
+<li>Detached HEAD means you’re not on any branch, just viewing history.</li>
+<li>Any new commits here won’t belong to your branch unless you create a new one.</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%B9-undo-with-git-checkout">🔹 Undo with <code>git checkout</code></h1>
+<h3 id="undo-changes-in-a-file-before-staging">Undo changes in a file (before staging):</h3>
+<pre class="hljs"><code><div>git checkout -- filename.txt
+</div></code></pre>
+<p>👉 Discards changes in the working directory and resets the file to last commit.</p>
+<h3 id="undo-staged-changes-after-git-add-but-before-commit">Undo staged changes (after <code>git add</code> but before commit):</h3>
+<pre class="hljs"><code><div>git reset HEAD filename.txt
+</div></code></pre>
+<p>👉 Removes file from staging area, but keeps changes in working directory.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-coming-back-to-the-latest-commit">🔹 Coming Back to the Latest Commit</h1>
+<p>If you checked out an old commit (<code>detached HEAD</code>):</p>
+<pre class="hljs"><code><div>git checkout main
+</div></code></pre>
+<p>👉 Brings you back to the latest commit on the <code>main</code> branch.</p>
+<p>If your branch is different (e.g., <code>dev</code>):</p>
+<pre class="hljs"><code><div>git checkout dev
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-what-is-gitignore">🔹 What is <code>.gitignore</code>?</h1>
+<p><code>.gitignore</code> is a file where you tell Git which files or folders it should <strong>ignore</strong> (not track).
+Useful for:</p>
+<ul>
+<li>Temporary files (<code>*.log</code>, <code>*.tmp</code>)</li>
+<li>Build artifacts (<code>/dist/</code>, <code>/bin/</code>)</li>
+<li>Secrets (<code>.env</code>)</li>
+<li>System files (<code>.DS_Store</code>, <code>Thumbs.db</code>)</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%B9-how-to-use">🔹 How to Use</h1>
+<ol>
+<li>Create a file named <code>.gitignore</code> in your repo root.</li>
+<li>Add patterns of files/folders you want Git to ignore.</li>
+</ol>
+<hr>
+<h1 id="%F0%9F%94%B9-example-gitignore">🔹 Example <code>.gitignore</code></h1>
+<pre class="hljs"><code><div># Ignore node_modules folder
+node_modules/
+
+# Ignore environment file
+.env
+
+# Ignore all .log files
+*.log
+
+# Ignore build folder
+/dist/
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-create-a-git-alias">🔹 Create a Git Alias</h1>
+<p>You add aliases using:</p>
+<pre class="hljs"><code><div>git config --global <span class="hljs-built_in">alias</span>.&lt;shortcut&gt; <span class="hljs-string">"&lt;command&gt;"</span>
+</div></code></pre>
+<ul>
+<li><code>--global</code> → applies to all repos on your machine.</li>
+<li><code>&lt;shortcut&gt;</code> → the short name you want.</li>
+<li><code>&lt;command&gt;</code> → the full git command.</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%B9-examples">🔹 Examples</h1>
+<h3 id="1-shorter-status">1) Shorter <code>status</code></h3>
+<pre class="hljs"><code><div>git config --global alias.st status
+</div></code></pre>
+<p>Now run:</p>
+<pre class="hljs"><code><div>git st
+</div></code></pre>
+<h3 id="2-shorter-checkout">2) Shorter <code>checkout</code></h3>
+<pre class="hljs"><code><div>git config --global alias.co checkout
+</div></code></pre>
+<p>Now:</p>
+<pre class="hljs"><code><div>git co main
+</div></code></pre>
+<h3 id="3-shorter-commit">3) Shorter <code>commit</code></h3>
+<pre class="hljs"><code><div>git config --global alias.ci commit
+</div></code></pre>
+<h3 id="4-log-with-one-line">4) Log with one line</h3>
+<pre class="hljs"><code><div>git config --global alias.lg <span class="hljs-string">"log --oneline --graph --decorate --all"</span>
+</div></code></pre>
+<p>Now:</p>
+<pre class="hljs"><code><div>git lg
+</div></code></pre>
+<p>👉 Shows a nice branch/commit history.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-view-all-aliases">🔹 View All Aliases</h1>
+<pre class="hljs"><code><div>git config --global --get-regexp <span class="hljs-built_in">alias</span>
+</div></code></pre>
+<h1 id="%F0%9F%94%B9-remove-an-alias">🔹 Remove an Alias</h1>
+<pre class="hljs"><code><div>git config --global --<span class="hljs-built_in">unset</span> alias.st
+</div></code></pre>
+<hr>
+<h2 id="a-local-repo-%E2%86%92-connect-to-remote-github">A) Local repo → connect to remote (GitHub)</h2>
+<pre class="hljs"><code><div>git init
+git add .
+git commit -m <span class="hljs-string">"init"</span>
+git branch -M main
+git remote add origin &lt;REMOTE_URL&gt;   <span class="hljs-comment"># HTTPS or SSH</span>
+git push -u origin main              <span class="hljs-comment"># set upstream (only first time)</span>
+</div></code></pre>
+<h2 id="b-remote-repo-%E2%86%92-clone-to-local">B) Remote repo → clone to local</h2>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> &lt;REMOTE_URL&gt;
+<span class="hljs-built_in">cd</span> &lt;repo-name&gt;
+git remote -v
+</div></code></pre>
+<h2 id="handy-checksedits">Handy checks/edits</h2>
+<pre class="hljs"><code><div>git remote -v                       <span class="hljs-comment"># list remotes</span>
+git remote <span class="hljs-built_in">set</span>-url origin &lt;URL&gt;     <span class="hljs-comment"># change URL (e.g., HTTPS → SSH)</span>
+git remote remove origin            <span class="hljs-comment"># remove remote</span>
+git remote rename origin upstream   <span class="hljs-comment"># rename</span>
+</div></code></pre>
+<hr>
+<h1 id="%F0%9F%94%B9-git-push">🔹 <code>git push</code></h1>
+<ul>
+<li><strong>Definition:</strong> Uploads your local commits to the remote repository.</li>
+<li><strong>Use case:</strong> After committing locally, share changes with others.</li>
+</ul>
+<h3 id="example">Example:</h3>
+<pre class="hljs"><code><div>git push origin main
+</div></code></pre>
+<p>👉 Push your local <code>main</code> branch → remote <code>origin/main</code>.</p>
+<p>First push (set upstream):</p>
+<pre class="hljs"><code><div>git push -u origin main
+</div></code></pre>
+<p>Then just:</p>
+<pre class="hljs"><code><div>git push
+</div></code></pre>
+<h1 id="%F0%9F%94%B9-git-pull">🔹 <code>git pull</code></h1>
+<ul>
+<li><strong>Definition:</strong> Fetches changes from the remote repo <strong>and merges</strong> them into your current branch.</li>
+<li><strong>Use case:</strong> Update your branch with the latest changes before coding or after others pushed.</li>
+</ul>
+<h3 id="example">Example:</h3>
+<pre class="hljs"><code><div>git pull origin main
+</div></code></pre>
+<p>👉 Get remote <code>main</code> and merge into your local <code>main</code>.</p>
+<hr>
+<h1 id="%F0%9F%94%B9-in-simple-terms">🔹 In Simple Terms</h1>
+<ul>
+<li><code>git push</code> → <strong>Send</strong> my commits → remote repo.</li>
+<li><code>git pull</code> → <strong>Get</strong> latest commits from remote → merge into my branch.</li>
+</ul>
+<hr>
+<p>⚡Pro tip:
+Sometimes <code>git pull</code> may cause <strong>merge conflicts</strong> if you and someone else changed the same file → you’ll need to resolve them before committing.</p>
+<hr>
+<h3 id="%F0%9F%96%A5%EF%B8%8F-local-repository">🖥️ Local Repository</h3>
+<ul>
+<li>Lives <strong>on your computer</strong>.</li>
+<li>It’s where you write code, commit changes, and keep versions locally.</li>
+<li>Example: a folder with a hidden <code>.git</code> directory on your Ubuntu machine.</li>
+<li>Commands you do here: <code>git add</code>, <code>git commit</code>, <code>git log</code>.</li>
+</ul>
+<h3 id="%E2%98%81%EF%B8%8F-remote-repository">☁️ Remote Repository</h3>
+<ul>
+<li>Lives <strong>on a server / cloud platform</strong> like GitHub, GitLab, Bitbucket.</li>
+<li>Shared version of your repo where you push/pull code.</li>
+<li>Allows collaboration with others.</li>
+<li>Commands you do here: <code>git push</code>, <code>git pull</code>, <code>git clone</code>, <code>git fetch</code>.</li>
+</ul>
+<p>👉 Think of it like this:</p>
+<ul>
+<li><strong>Local = your personal notebook.</strong></li>
+<li><strong>Remote = a shared Google Doc where everyone can sync their changes.</strong></li>
+</ul>
+<hr>
+<p>Here’s a <strong>brief practical guide</strong> for branching, merging, and pull requests:</p>
+<hr>
+<h3 id="1-branching">1. <strong>Branching</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Create a new branch</span>
+git checkout -b feature-branch
+
+<span class="hljs-comment"># Switch between branches</span>
+git checkout main
+git checkout feature-branch
+</div></code></pre>
+<p><em>Use a branch to develop a new feature without affecting <code>main</code>.</em></p>
+<hr>
+<h3 id="2-merging">2. <strong>Merging</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Merge feature branch into main</span>
+git checkout main
+git merge feature-branch
+
+<span class="hljs-comment"># If conflicts appear, resolve them in files, then</span>
+git add .
+git commit -m <span class="hljs-string">"Resolved merge conflicts"</span>
+</div></code></pre>
+<p><em>Merges changes from one branch into another.</em></p>
+<hr>
+<h3 id="3-pull-request-pr">3. <strong>Pull Request (PR)</strong></h3>
+<ol>
+<li>Push your branch to remote:</li>
+</ol>
+<pre class="hljs"><code><div>git push origin feature-branch
+</div></code></pre>
+<ol start="2">
+<li>Go to GitHub/GitLab → Compare &amp; Pull Request → Add description → Create PR.</li>
+<li>Teammates review → Approve → Merge.</li>
+</ol>
+<p><em>PR is basically a formal request to merge your branch after review.</em></p>
+<hr>
+<h2 id="1-what-is-a-git-issue"><strong>1. What is a Git Issue?</strong></h2>
+<p>A <strong>Git issue</strong> is <strong>not part of Git itself</strong>, but part of platforms like <strong>GitHub, GitLab, or Bitbucket</strong>. It’s used to <strong>track bugs, feature requests, tasks, or enhancements</strong> in your project.</p>
+<p>Think of it as a <strong>to-do list for your code repository</strong>, with extra tracking features.</p>
+<hr>
+<h2 id="2-why-git-issues-are-important"><strong>2. Why Git Issues Are Important</strong></h2>
+<ul>
+<li>Keeps track of <strong>bugs</strong> and <strong>improvements</strong>.</li>
+<li>Helps <strong>collaboration</strong> between team members.</li>
+<li>Allows you to <strong>prioritize tasks</strong>.</li>
+<li>Provides <strong>history of changes</strong> and decisions.</li>
+</ul>
+<hr>
+<h2 id="3-creating-an-issue-example-on-github"><strong>3. Creating an Issue (Example on GitHub)</strong></h2>
+<ol>
+<li>
+<p>Go to your <strong>repository</strong> on GitHub.</p>
+</li>
+<li>
+<p>Click on the <strong>“Issues”</strong> tab.</p>
+</li>
+<li>
+<p>Click <strong>“New Issue”</strong>.</p>
+</li>
+<li>
+<p>Add:</p>
+<ul>
+<li><strong>Title:</strong> Short summary of the problem or request.</li>
+<li><strong>Description:</strong> Explain the problem, steps to reproduce, screenshots if needed.</li>
+</ul>
+</li>
+<li>
+<p>Optionally:</p>
+<ul>
+<li>Assign to a team member.</li>
+<li>Add labels (bug, enhancement, question).</li>
+<li>Add milestones if part of a bigger project.</li>
+</ul>
+</li>
+<li>
+<p>Click <strong>“Submit new issue”</strong>.</p>
+</li>
+</ol>
+<hr>
+<h2 id="4-working-with-issues"><strong>4. Working With Issues</strong></h2>
+<ul>
+<li>
+<p><strong>Commenting:</strong> Discuss solutions with your team.</p>
+</li>
+<li>
+<p><strong>Closing Issues:</strong> When resolved, click <strong>“Close issue”</strong>.</p>
+</li>
+<li>
+<p><strong>Linking Commits:</strong> In your Git commit messages, you can reference an issue:</p>
+<pre class="hljs"><code><div>git commit -m &quot;Fix login bug #23&quot;
+</div></code></pre>
+<p>This links the commit to <strong>Issue #23</strong>.</p>
+</li>
+<li>
+<p><strong>Labels:</strong> Use labels to filter issues quickly (bug, enhancement, question, etc.).</p>
+</li>
+</ul>
+<hr>
+<h2 id="5-good-practices"><strong>5. Good Practices</strong></h2>
+<ul>
+<li>Make titles <strong>clear and concise</strong>.</li>
+<li>Add <strong>steps to reproduce bugs</strong>.</li>
+<li>Use <strong>labels</strong> to categorize.</li>
+<li>Link issues to <strong>pull requests</strong> for easier tracking.</li>
+</ul>
+<hr>
+<p>✅ <strong>Quick Example:</strong></p>
+<p>Title: <code>Login page throws error when password is empty</code>
+Description:</p>
+<pre class="hljs"><code><div>Steps to reproduce:
+1. Go to login page
+2. Leave password empty
+3. Click login
+
+Expected: Show error &quot;Password required&quot;
+Actual: Page crashes
+</div></code></pre>
+<hr>
+<p>Got it! Let’s break down <strong>two-way merge</strong> and <strong>fast-forward merge</strong> in Git with clear explanations and examples.</p>
+<hr>
+<h2 id="1%EF%B8%8F%E2%83%A3-fast-forward-merge"><strong>1️⃣ Fast-Forward Merge</strong></h2>
+<p>A <strong>fast-forward merge</strong> happens when your <strong>feature branch</strong> is ahead of the <strong>main branch</strong>, and the main branch hasn’t progressed since you branched.
+Git just moves the main branch pointer forward—<strong>no new merge commit is created</strong>.</p>
+<p><strong>Example:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Assume you're on main branch</span>
+git checkout main
+
+<span class="hljs-comment"># Merge feature branch</span>
+git merge feature
+</div></code></pre>
+<p>If <code>main</code> has no new commits since <code>feature</code> branched, Git will do a <strong>fast-forward merge</strong>, simply updating <code>main</code> to point to the latest commit of <code>feature</code>.</p>
+<ul>
+<li><strong>No merge commit.</strong></li>
+<li><strong>History stays linear.</strong></li>
+</ul>
+<hr>
+<h3 id="force-non-fast-forward-merge"><strong>Force non-fast-forward merge</strong></h3>
+<p>If you want a merge commit even for fast-forward:</p>
+<pre class="hljs"><code><div>git merge --no-ff feature
+</div></code></pre>
+<h2 id="2%EF%B8%8F%E2%83%A3-two-way-merge-normal-merge"><strong>2️⃣ Two-Way Merge (Normal Merge)</strong></h2>
+<p>A <strong>two-way merge</strong> (or three-way merge in Git terms) happens when <strong>both branches have new commits</strong> since the branch point.</p>
+<ul>
+<li>Git looks at the <strong>common ancestor</strong>, then merges changes from both branches.</li>
+<li>If there are <strong>conflicting changes</strong>, Git stops and asks you to <strong>resolve conflicts manually</strong>.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># On main branch</span>
+git checkout main
+
+<span class="hljs-comment"># Merge feature branch</span>
+git merge feature
+</div></code></pre>
+<ul>
+<li>Git creates a <strong>merge commit</strong>.</li>
+<li>If conflicts occur, you’ll see something like:</li>
+</ul>
+<pre class="hljs"><code><div>CONFLICT (content): Merge conflict in file.txt
+</div></code></pre>
+<p>Resolve conflicts:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Edit the conflicted files manually</span>
+git add file.txt
+git commit
+</div></code></pre>
+<hr>
+<h3 id="difference-summary"><strong>Difference Summary</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Merge Type</th>
+<th>When it happens</th>
+<th>Merge commit created?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fast-Forward</td>
+<td>Main has no new commits</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Two-Way / Normal</td>
+<td>Both branches have new commits</td>
+<td>✅ Yes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="%F0%9F%94%B9-what-is-a-3-way-merge-in-git">🔹 What is a <strong>3-Way Merge</strong> in Git?</h1>
+<p>A <strong>3-way merge</strong> happens when <strong>both branches have diverged</strong> (i.e., each branch has new commits after they split).
+Git uses <strong>three commits</strong> to perform the merge:</p>
+<ol>
+<li><strong>Base commit</strong> → The common ancestor where the two branches split.</li>
+<li><strong>Head commit of branch A</strong> → Usually the branch you’re merging into (e.g., <code>main</code>).</li>
+<li><strong>Head commit of branch B</strong> → The branch you’re merging (e.g., <code>feature</code>).</li>
+</ol>
+<p>Git compares these <strong>three snapshots</strong> and combines changes.</p>
+<hr>
+<h2 id="example"><strong>Example</strong></h2>
+<p>Imagine you branched off <code>main</code> into <code>feature</code>:</p>
+<pre class="hljs"><code><div>A --- B --- C   (main)
+       \
+        D --- E (feature)
+</div></code></pre>
+<ul>
+<li><strong>A</strong> = base commit (common ancestor).</li>
+<li><strong>C</strong> = latest commit in <code>main</code>.</li>
+<li><strong>E</strong> = latest commit in <code>feature</code>.</li>
+</ul>
+<p>When you run:</p>
+<pre class="hljs"><code><div>git checkout main
+git merge feature
+</div></code></pre>
+<p>Git does a <strong>3-way merge</strong>:</p>
+<ul>
+<li>Looks at changes between <strong>A → C</strong> and <strong>A → E</strong>.</li>
+<li>Combines them into a new <strong>merge commit F</strong>:</li>
+</ul>
+<pre class="hljs"><code><div>A --- B --- C -------- F (main)
+       \             /
+        D --- E ---- (feature)
+</div></code></pre>
+<hr>
+<h2 id="when-does-3-way-merge-happen"><strong>When Does 3-Way Merge Happen?</strong></h2>
+<ul>
+<li>Both branches have new commits since splitting.</li>
+<li>A fast-forward merge is <strong>not possible</strong>.</li>
+</ul>
+<hr>
+<h2 id="what-about-conflicts"><strong>What About Conflicts?</strong></h2>
+<p>If the same line in a file was modified differently in both branches, Git cannot decide automatically → <strong>merge conflict</strong>.</p>
+<p>Example conflict marker in file:</p>
+<pre class="hljs"><code><div>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Code from main
+=======
+Code from feature
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature
+</div></code></pre>
+<p>You must manually edit, then:</p>
+<pre class="hljs"><code><div>git add file.txt
+git commit
+</div></code></pre>
+<hr>
+<p>✅ <strong>Summary</strong></p>
+<ul>
+<li><strong>Fast-forward merge</strong> = just moves branch pointer (no merge commit).</li>
+<li><strong>3-way merge</strong> = uses base + branch A + branch B → creates a merge commit.</li>
+<li>Needed when branches <strong>diverged</strong>.</li>
+</ul>
+<hr>
+<h1 id="%F0%9F%94%A5-how-merge-conflicts-happen">🔥 <strong>How Merge Conflicts Happen</strong></h1>
+<p>A <strong>merge conflict</strong> occurs when <strong>Git cannot automatically merge changes</strong> from two branches because both changed the <strong>same line</strong> of a file or <strong>one branch deleted a file while another modified it</strong>.</p>
+<h3 id="example">Example:</h3>
+<ul>
+<li><strong>Branch A (main):</strong></li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello World"</span>);
+</div></code></pre>
+<ul>
+<li><strong>Branch B (feature):</strong></li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello Git"</span>);
+</div></code></pre>
+<p>If you try to merge <code>feature</code> into <code>main</code>, Git won’t know which line to keep → <strong>conflict</strong>.</p>
+<hr>
+<h1 id="%E2%9A%A1-fixing-merge-conflicts-locally">⚡ <strong>Fixing Merge Conflicts Locally</strong></h1>
+<ol>
+<li>
+<p>Try merging:</p>
+<pre class="hljs"><code><div>git checkout main
+git merge feature
+</div></code></pre>
+<p>If there’s a conflict, Git shows:</p>
+<pre class="hljs"><code><div>CONFLICT (content): Merge conflict in file.js
+</div></code></pre>
+</li>
+<li>
+<p>Open the conflicted file, you’ll see markers:</p>
+<pre class="hljs"><code><div>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello World"</span>);
+=======
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello Git"</span>);
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature
+</div></code></pre>
+</li>
+<li>
+<p><strong>Manually edit</strong> → decide what to keep:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello GitHub"</span>);
+</div></code></pre>
+</li>
+<li>
+<p>Mark conflict as resolved:</p>
+<pre class="hljs"><code><div>git add file.js
+</div></code></pre>
+</li>
+<li>
+<p>Finish merge:</p>
+<pre class="hljs"><code><div>git commit
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<h1 id="%F0%9F%8C%8D-fixing-merge-conflicts-on-github">🌍 <strong>Fixing Merge Conflicts on GitHub</strong></h1>
+<ol>
+<li>
+<p>When you open a <strong>Pull Request (PR)</strong>, GitHub will warn:</p>
+<blockquote>
+<p>&quot;This branch has conflicts that must be resolved.&quot;</p>
+</blockquote>
+</li>
+<li>
+<p>Click <strong>Resolve conflicts</strong> button in the PR.</p>
+</li>
+<li>
+<p>GitHub shows the same markers:</p>
+<pre class="hljs"><code><div>&lt;&lt;&lt;&lt;&lt;&lt;&lt; main
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello World"</span>);
+=======
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello Git"</span>);
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature
+</div></code></pre>
+</li>
+<li>
+<p>Edit in the web editor → choose the correct version.</p>
+</li>
+<li>
+<p>Click <strong>Mark as resolved</strong> → <strong>Commit merge</strong>.</p>
+</li>
+</ol>
+<hr>
+<h1 id="%E2%9C%85-best-practices">✅ Best Practices</h1>
+<ul>
+<li>
+<p>Pull latest changes before starting work:</p>
+<pre class="hljs"><code><div>git pull origin main
+</div></code></pre>
+</li>
+<li>
+<p>Resolve conflicts <strong>locally</strong> if changes are big.</p>
+</li>
+<li>
+<p>Use GitHub UI for <strong>small text/code conflicts</strong>.</p>
+</li>
+<li>
+<p>Communicate with your team about what should stay.</p>
+</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9A%80-workflow-fork-%E2%86%92-clone-%E2%86%92-contribute-%E2%86%92-pull-request">🚀 Workflow: Fork → Clone → Contribute → Pull Request</h2>
+<h3 id="1-fork-the-repository"><strong>1. Fork the repository</strong></h3>
+<ul>
+<li>Go to the project’s GitHub page.</li>
+<li>On the top right, click <strong>Fork</strong>.</li>
+<li>This creates <strong>your own copy</strong> of that repo under your account.</li>
+</ul>
+<hr>
+<h3 id="2-clone-your-fork-to-your-computer"><strong>2. Clone your fork to your computer</strong></h3>
+<p>Open terminal (or Git Bash/PowerShell) and run:</p>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/&lt;your-username&gt;/&lt;repo-name&gt;.git
+<span class="hljs-built_in">cd</span> &lt;repo-name&gt;
+</div></code></pre>
+<p>Now you have the project locally.</p>
+<hr>
+<h3 id="3-add-the-original-repo-as-upstream-to-stay-updated"><strong>3. Add the original repo as upstream (to stay updated)</strong></h3>
+<pre class="hljs"><code><div>git remote add upstream https://github.com/&lt;original-owner&gt;/&lt;repo-name&gt;.git
+</div></code></pre>
+<p>Check remotes:</p>
+<pre class="hljs"><code><div>git remote -v
+</div></code></pre>
+<hr>
+<h3 id="4-create-a-new-branch-for-your-contribution"><strong>4. Create a new branch for your contribution</strong></h3>
+<p>Never work directly on <code>main</code>:</p>
+<pre class="hljs"><code><div>git checkout -b feature-new-idea
+</div></code></pre>
+<hr>
+<h3 id="5-make-changes"><strong>5. Make changes</strong></h3>
+<ul>
+<li>Edit code, docs, or fix bugs.</li>
+<li>After editing:</li>
+</ul>
+<pre class="hljs"><code><div>git add .
+git commit -m <span class="hljs-string">"Add new feature/fix bug"</span>
+</div></code></pre>
+<hr>
+<h3 id="6-push-changes-to-your-fork"><strong>6. Push changes to your fork</strong></h3>
+<pre class="hljs"><code><div>git push origin feature-new-idea
+</div></code></pre>
+<hr>
+<h3 id="7-create-a-pull-request-pr"><strong>7. Create a Pull Request (PR)</strong></h3>
+<ul>
+<li>Go to <strong>your fork on GitHub</strong>.</li>
+<li>You’ll see a button: <strong>Compare &amp; pull request</strong>.</li>
+<li>Click it → Write a clear description of what you changed.</li>
+<li>Submit the PR to the <strong>original repo</strong>.</li>
+</ul>
+<hr>
+<h3 id="8-keep-your-fork-updated-optional-but-important"><strong>8. Keep your fork updated (optional but important)</strong></h3>
+<p>If the original repo updates:</p>
+<pre class="hljs"><code><div>git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+</div></code></pre>
+<hr>
+<p>✅ That’s it!
+You fork → clone → make changes in a new branch → push → PR → contribute 🎉</p>
+<h2 id="%F0%9F%94%B9-1-what-is-github-collaboration">🔹 1. What is GitHub Collaboration?</h2>
+<p>When two or more people want to build or improve the same project (like a website, app, or notes), GitHub provides tools to:</p>
+<ul>
+<li>Share the project code</li>
+<li>Make changes safely</li>
+<li>Review each other’s work</li>
+<li>Merge everything together without breaking the project</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%B9-2-common-ways-to-collaborate">🔹 2. Common Ways to Collaborate</h2>
+<p>There are <strong>two main ways</strong> people collaborate:</p>
+<h3 id="a-direct-collaboration-team-members"><strong>(A) Direct Collaboration (Team Members)</strong></h3>
+<ul>
+<li>If you own a repository (repo = project on GitHub), you can <strong>add collaborators</strong>.</li>
+<li>They can push code directly to the repo.</li>
+</ul>
+<h3 id="b-fork--pull-request-open-source-style"><strong>(B) Fork &amp; Pull Request (Open Source Style)</strong></h3>
+<ul>
+<li>
+<p>If you want to contribute to someone else’s project (you’re not added as collaborator):</p>
+<ol>
+<li>You <strong>fork</strong> (make a copy) of their repo.</li>
+<li>Make changes in your fork.</li>
+<li>Send a <strong>pull request (PR)</strong> asking them to merge your changes.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%B9-3-how-it-happens-step-by-step">🔹 3. How It Happens Step by Step</h2>
+<h3 id="1-create-a-repo"><strong>(1) Create a Repo</strong></h3>
+<ul>
+<li>One person creates a repository (repo) on GitHub.</li>
+<li>Example: <code>my-cool-project</code>.</li>
+</ul>
+<h3 id="2-add-collaborators"><strong>(2) Add Collaborators</strong></h3>
+<ul>
+<li>Go to repo → <strong>Settings → Collaborators → Add people</strong> (enter their GitHub username).</li>
+<li>They accept the invite.</li>
+</ul>
+<h3 id="3-clone-the-repo"><strong>(3) Clone the Repo</strong></h3>
+<p>Each collaborator downloads the repo to their computer:</p>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/username/my-cool-project.git
+</div></code></pre>
+<h3 id="4-create-a-branch"><strong>(4) Create a Branch</strong></h3>
+<p>Instead of directly editing the main code, you create a <strong>branch</strong> for your changes:</p>
+<pre class="hljs"><code><div>git checkout -b feature-login
+</div></code></pre>
+<h3 id="5-make-changes--commit"><strong>(5) Make Changes &amp; Commit</strong></h3>
+<ul>
+<li>Modify the code</li>
+<li>Save the changes</li>
+<li>Commit them:</li>
+</ul>
+<pre class="hljs"><code><div>git add .
+git commit -m <span class="hljs-string">"Added login page"</span>
+</div></code></pre>
+<h3 id="6-push-to-github"><strong>(6) Push to GitHub</strong></h3>
+<p>Upload your branch to GitHub:</p>
+<pre class="hljs"><code><div>git push origin feature-login
+</div></code></pre>
+<h3 id="7-pull-request-pr"><strong>(7) Pull Request (PR)</strong></h3>
+<p>On GitHub website:</p>
+<ul>
+<li>You’ll see <strong>Compare &amp; pull request</strong></li>
+<li>Create a PR → describe what you changed</li>
+<li>Others review it</li>
+</ul>
+<h3 id="8-review--merge"><strong>(8) Review &amp; Merge</strong></h3>
+<ul>
+<li>Collaborators review your PR</li>
+<li>If okay → they <strong>merge</strong> it into the main branch</li>
+<li>Everyone updates their repo with:</li>
+</ul>
+<pre class="hljs"><code><div>git pull origin main
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%94%B9-4-example-flow-team-of-2">🔹 4. Example Flow (Team of 2)</h2>
+<p>👩 Alice creates repo
+👨 Bob is added as collaborator</p>
+<ul>
+<li>Alice works on branch <code>home-page</code></li>
+<li>Bob works on branch <code>login-page</code></li>
+<li>Both push → create PRs → review each other → merge into <code>main</code></li>
+</ul>
+<p>This way, no one overwrites each other’s code, and the project grows.</p>
+<hr>
+<h2 id="%F0%9F%94%B9-5-extra-collaboration-features">🔹 5. Extra Collaboration Features</h2>
+<ul>
+<li><strong>Issues</strong> → Track bugs, features, and discussions</li>
+<li><strong>Pull Request reviews</strong> → Add comments before merging</li>
+<li><strong>Project boards</strong> → Organize tasks like a to-do list</li>
+<li><strong>Actions</strong> → Automate tests or deployment</li>
+</ul>
+<hr>
+<p>👉 So, in short:
+GitHub collaboration happens by sharing a repo, working on branches, pushing changes, reviewing with pull requests, and merging safely.</p>
+<hr>
+
+</body>
+</html>

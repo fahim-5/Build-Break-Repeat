@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>passport-jwt.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p align="center">
+  <strong>Fahim Faysal</strong><br>
+  <sub>14-08-2025</sub>
+</p>
+<h1 id="passport-jwt-authentication"><strong>Passport-JWT Authentication</strong></h1>
+<h2 id="beginners-guide"><strong>Beginner’s Guide</strong></h2>
+<p>Passport.js with <strong>JWT (JSON Web Token)</strong> lets users log in without the server storing their session.<br>
+Instead, the user carries a <strong>token</strong> — like a digital ID — and presents it whenever they interact with the server.</p>
+<hr>
+<h3 id="how-it-works"><strong>How it Works</strong></h3>
+<ol>
+<li><strong>Login</strong> → User submits username &amp; password.</li>
+<li><strong>Verification</strong> → Server checks credentials.</li>
+<li><strong>Token Creation</strong> → Server generates a <strong>JWT</strong>, signed with a secret key.</li>
+<li><strong>Token Storage</strong> → User keeps the JWT (localStorage, sessionStorage, or cookie).</li>
+<li><strong>Requests</strong> → User sends the JWT with every request.</li>
+<li><strong>Validation</strong> → Server checks the token → grants access if valid &amp; not expired.</li>
+</ol>
+<hr>
+<h3 id="why-use-jwt"><strong>Why Use JWT?</strong></h3>
+<ul>
+<li>Stateless → No server-side session storage.</li>
+<li>Perfect for APIs, mobile apps, and microservices.</li>
+<li>Secure, as long as you <strong>keep your token safe</strong>.</li>
+</ul>
+<hr>
+<p>💡 <strong>Pro Tip:</strong> Always set <strong>expiry times</strong> for JWTs and implement <strong>refresh tokens</strong> to maintain security and reduce frequent logins.</p>
+<h3 id="%F0%9F%94%91-jwt-authentication-setup-notes">🔑 JWT Authentication Setup Notes</h3>
+<ol>
+<li>
+<p>First of all, we need to create a <strong>user login and register system</strong> with <strong>Node + Express</strong>, and connect it with a database.</p>
+</li>
+<li>
+<p>Then we have to install:</p>
+<pre class="hljs"><code><div>npm i jsonwebtoken
+</div></code></pre>
+</li>
+<li>
+<p>Next, we import the package:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">var</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jsonwebtoken'</span>);
+</div></code></pre>
+</li>
+<li>
+<p>Then we use this method:</p>
+<pre class="hljs"><code><div>jwt.sign(payload, secretOrPrivateKey, [options, callback])
+</div></code></pre>
+</li>
+<li>
+<p>Here, we have to use the <strong><code>expiresIn</code></strong> option, and also set a value for the <strong>payload</strong>.</p>
+</li>
+<li>
+<p>Now we go to <strong>Passport.js</strong> and install <strong>passport-jwt</strong>.</p>
+</li>
+<li>
+<p>In the config folder, we will create a file named <strong><code>passport.js</code></strong>, and paste this code inside:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">var</span> JwtStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">'passport-jwt'</span>).Strategy,
+    ExtractJwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'passport-jwt'</span>).ExtractJwt;
+
+<span class="hljs-keyword">var</span> opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = <span class="hljs-string">'secret'</span>;
+opts.issuer = <span class="hljs-string">'accounts.examplesoft.com'</span>;
+opts.audience = <span class="hljs-string">'yoursite.net'</span>;
+
+passport.use(
+  <span class="hljs-keyword">new</span> JwtStrategy(opts, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jwt_payload, done</span>) </span>{
+    User.findOne({ <span class="hljs-attr">id</span>: jwt_payload.sub }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, user</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">return</span> done(err, <span class="hljs-literal">false</span>);
+      }
+      <span class="hljs-keyword">if</span> (user) {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, user);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-comment">// or you could create a new account</span>
+      }
+    });
+  })
+);
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../models/user.model"</span>);
+<span class="hljs-keyword">const</span> JwtStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-jwt"</span>).Strategy,
+  ExtractJwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-jwt"</span>).ExtractJwt;
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+
+<span class="hljs-keyword">const</span> opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = process.env.SECRET_KEY;
+
+passport.use(
+  <span class="hljs-keyword">new</span> JwtStrategy(opts, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jwt_payload, done</span>) </span>{
+    User.findOne({ <span class="hljs-attr">id</span>: jwt_payload.id }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, user</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">return</span> done(err, <span class="hljs-literal">false</span>);
+      }
+      <span class="hljs-keyword">if</span> (user) {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, user);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>);
+      }
+    });
+  })
+);
+</div></code></pre>
+<p>and in your <strong>app.js</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+
+<span class="hljs-keyword">const</span> app = express();
+
+<span class="hljs-comment">// initialize passport</span>
+app.use(passport.initialize());
+</div></code></pre>
+<p>Here’s the structured version ⬇️</p>
+<hr>
+<h3 id="%F0%9F%93%82-configdatabasejs">📂 <code>config/database.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"db is connected"</span>);
+  })
+  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(error.message);
+    process.exit(<span class="hljs-number">1</span>);
+  });
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-configpassportjs">📂 <code>config/passport.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../models/user.model"</span>);
+<span class="hljs-keyword">const</span> JwtStrategy = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-jwt"</span>).Strategy;
+<span class="hljs-keyword">const</span> ExtractJwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport-jwt"</span>).ExtractJwt;
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+
+<span class="hljs-keyword">const</span> opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = process.env.SECRET_KEY;
+
+passport.use(
+  <span class="hljs-keyword">new</span> JwtStrategy(opts, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jwt_payload, done</span>) </span>{
+    User.findOne({ <span class="hljs-attr">id</span>: jwt_payload.id }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, user</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">return</span> done(err, <span class="hljs-literal">false</span>);
+      }
+      <span class="hljs-keyword">if</span> (user) {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, user);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> done(<span class="hljs-literal">null</span>, <span class="hljs-literal">false</span>);
+      }
+    });
+  })
+);
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-modelsusermodeljs">📂 <code>models/user.model.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+
+<span class="hljs-keyword">const</span> userSchema = mongoose.Schema({
+  <span class="hljs-attr">username</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">require</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>,
+  },
+  <span class="hljs-attr">password</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">require</span>: <span class="hljs-literal">true</span>,
+  },
+  <span class="hljs-attr">createdOn</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">Date</span>,
+    <span class="hljs-attr">default</span>: <span class="hljs-built_in">Date</span>.now,
+  },
+});
+
+<span class="hljs-keyword">const</span> User = mongoose.model(<span class="hljs-string">"user"</span>, userSchema);
+<span class="hljs-built_in">module</span>.exports = User;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-appjs">📂 <code>app.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> cors = <span class="hljs-built_in">require</span>(<span class="hljs-string">"cors"</span>);
+<span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"bcrypt"</span>);
+<span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">"jsonwebtoken"</span>);
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">"passport"</span>);
+
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./models/user.model"</span>);
+<span class="hljs-keyword">const</span> saltRounds = <span class="hljs-number">10</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"./config/database"</span>);
+
+app.use(cors());
+app.use(express.urlencoded({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> }));
+app.use(express.json());
+app.use(passport.initialize());
+
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"./config/passport"</span>);
+
+<span class="hljs-comment">// home route</span>
+app.get(<span class="hljs-string">"/"</span>, (req, res) =&gt; {
+  res.send(<span class="hljs-string">"&lt;h1&gt; Welcome to the server &lt;/h1&gt;"</span>);
+});
+
+<span class="hljs-comment">// register route</span>
+app.post(<span class="hljs-string">"/register"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ <span class="hljs-attr">username</span>: req.body.username });
+    <span class="hljs-keyword">if</span> (user) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">400</span>).send(<span class="hljs-string">"User already exists"</span>);
+
+    bcrypt.hash(req.body.password, saltRounds, <span class="hljs-keyword">async</span> (err, hash) =&gt; {
+      <span class="hljs-keyword">const</span> newUser = <span class="hljs-keyword">new</span> User({
+        <span class="hljs-attr">username</span>: req.body.username,
+        <span class="hljs-attr">password</span>: hash,
+      });
+
+      <span class="hljs-keyword">await</span> newUser
+        .save()
+        .then(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+          res.send({
+            <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">message</span>: <span class="hljs-string">"User is created Successfully"</span>,
+            <span class="hljs-attr">user</span>: {
+              <span class="hljs-attr">id</span>: user._id,
+              <span class="hljs-attr">username</span>: user.username,
+            },
+          });
+        })
+        .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+          res.send({
+            <span class="hljs-attr">success</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">message</span>: <span class="hljs-string">"User is not created"</span>,
+            <span class="hljs-attr">error</span>: error,
+          });
+        });
+    });
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).send(error.message);
+  }
+});
+
+<span class="hljs-comment">// login route</span>
+app.post(<span class="hljs-string">"/login"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ <span class="hljs-attr">username</span>: req.body.username });
+  <span class="hljs-keyword">if</span> (!user) {
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">401</span>).send({
+      <span class="hljs-attr">success</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"User is not found"</span>,
+    });
+  }
+
+  <span class="hljs-keyword">if</span> (!bcrypt.compareSync(req.body.password, user.password)) {
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">401</span>).send({
+      <span class="hljs-attr">success</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"Incorrect password"</span>,
+    });
+  }
+
+  <span class="hljs-keyword">const</span> payload = {
+    <span class="hljs-attr">id</span>: user._id,
+    <span class="hljs-attr">username</span>: user.username,
+  };
+
+  <span class="hljs-keyword">const</span> token = jwt.sign(payload, process.env.SECRET_KEY, {
+    <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">"2d"</span>,
+  });
+
+  <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).send({
+    <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"User is logged in successfully"</span>,
+    <span class="hljs-attr">token</span>: <span class="hljs-string">"Bearer "</span> + token,
+  });
+});
+
+<span class="hljs-comment">// profile route (protected)</span>
+app.get(
+  <span class="hljs-string">"/profile"</span>,
+  passport.authenticate(<span class="hljs-string">"jwt"</span>, { <span class="hljs-attr">session</span>: <span class="hljs-literal">false</span> }),
+  <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) </span>{
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).send({
+      <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">user</span>: {
+        <span class="hljs-attr">id</span>: req.user._id,
+        <span class="hljs-attr">username</span>: req.user.username,
+      },
+    });
+  }
+);
+
+<span class="hljs-comment">// resource not found</span>
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+  res.status(<span class="hljs-number">404</span>).json({
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"route not found"</span>,
+  });
+});
+
+<span class="hljs-comment">// server error</span>
+app.use(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err.stack);
+  res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Something broke!"</span>);
+});
+
+<span class="hljs-built_in">module</span>.exports = app;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-serverjs">📂 <code>server.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="hljs-string">"dotenv"</span>).config();
+<span class="hljs-keyword">const</span> app = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./app"</span>);
+
+<span class="hljs-keyword">const</span> port = process.env.PORT || <span class="hljs-number">4000</span>;
+
+app.listen(port, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`server is running at http://localhost:<span class="hljs-subst">${port}</span>`</span>);
+});
+</div></code></pre>
+<hr>
+<p>✅ Now your backend project is <strong>cleanly separated</strong> into</p>
+<ul>
+<li><code>config/</code> (database + passport setup)</li>
+<li><code>models/</code> (user schema)</li>
+<li><code>app.js</code> (all routes + middleware)</li>
+<li><code>server.js</code> (server start file)</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%93%82-frontend-structure">📂 Frontend Structure</h2>
+<pre class="hljs"><code><div>frontend/
+│── src/
+│   ├── components/
+│   │   ├── Error.js
+│   │   ├── Home.js
+│   │   ├── Login.js
+│   │   ├── Profile.js
+│   │   └── Register.js
+│   │
+│   ├── layout/
+│   │   └── Header.js
+│   │
+│   ├── routes/
+│   │   └── index.js
+│   │
+│   ├── App.js
+│   ├── App.css
+│   ├── index.js
+│   ├── index.css
+│   └── reportWebVitals.js
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-componentserrorjs">📂 <code>components/Error.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">Error</span> = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Error Page<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-built_in">Error</span>;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-componentshomejs">📂 <code>components/Home.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+
+<span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Home Page<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Home;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-componentsloginjs">📂 <code>components/Login.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useEffect, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">"axios"</span>;
+<span class="hljs-keyword">import</span> { useNavigate } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+
+<span class="hljs-keyword">const</span> Login = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> navigate = useNavigate();
+  <span class="hljs-keyword">const</span> [username, setUsername] = useState(<span class="hljs-string">""</span>);
+  <span class="hljs-keyword">const</span> [password, setPassword] = useState(<span class="hljs-string">""</span>);
+
+  useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> token = localStorage.getItem(<span class="hljs-string">"token"</span>);
+    axios
+      .get(<span class="hljs-string">"http://localhost:4000/profile"</span>, {
+        <span class="hljs-attr">headers</span>: { <span class="hljs-attr">Authorization</span>: token },
+      })
+      .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/profile"</span>))
+      .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/login"</span>));
+  }, []);
+
+  <span class="hljs-keyword">const</span> handleLogin = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    axios
+      .post(<span class="hljs-string">"http://localhost:4000/login"</span>, { username, password })
+      .then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        localStorage.setItem(<span class="hljs-string">"token"</span>, res.data.token);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"User successfully logged in"</span>);
+        navigate(<span class="hljs-string">"/profile"</span>);
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/login"</span>));
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Login Page<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Username"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{username}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setUsername(e.target.value)}
+        required
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Password"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{password}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setPassword(e.target.value)}
+        required
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{handleLogin}</span>&gt;</span>
+        Login
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Login;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-componentsprofilejs">📂 <code>components/Profile.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">"axios"</span>;
+<span class="hljs-keyword">import</span> { useNavigate } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+
+<span class="hljs-keyword">const</span> Profile = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> navigate = useNavigate();
+
+  useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> token = localStorage.getItem(<span class="hljs-string">"token"</span>);
+    axios
+      .get(<span class="hljs-string">"http://localhost:4000/profile"</span>, {
+        <span class="hljs-attr">headers</span>: { <span class="hljs-attr">Authorization</span>: token },
+      })
+      .then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(res))
+      .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/login"</span>));
+  }, []);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Profile Page<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Profile;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-componentsregisterjs">📂 <code>components/Register.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useEffect, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">"axios"</span>;
+<span class="hljs-keyword">import</span> { useNavigate } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+
+<span class="hljs-keyword">const</span> Register = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> navigate = useNavigate();
+  <span class="hljs-keyword">const</span> [username, setUsername] = useState(<span class="hljs-string">""</span>);
+  <span class="hljs-keyword">const</span> [password, setPassword] = useState(<span class="hljs-string">""</span>);
+
+  useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> token = localStorage.getItem(<span class="hljs-string">"token"</span>);
+    axios
+      .get(<span class="hljs-string">"http://localhost:4000/profile"</span>, {
+        <span class="hljs-attr">headers</span>: { <span class="hljs-attr">Authorization</span>: token },
+      })
+      .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/profile"</span>))
+      .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/register"</span>));
+  }, []);
+
+  <span class="hljs-keyword">const</span> handleRegister = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    axios
+      .post(<span class="hljs-string">"http://localhost:4000/register"</span>, { username, password })
+      .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"User registered"</span>);
+        navigate(<span class="hljs-string">"/login"</span>);
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> navigate(<span class="hljs-string">"/register"</span>));
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Register Page<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Username"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{username}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setUsername(e.target.value)}
+        required
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Password"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{password}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setPassword(e.target.value)}
+        required
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{handleRegister}</span>&gt;</span>
+        Register
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Register;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-layoutheaderjs">📂 <code>layout/Header.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+
+<span class="hljs-keyword">const</span> Header = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span> <span class="hljs-symbol">&amp;nbsp;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/register"</span>&gt;</span>Register<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span> <span class="hljs-symbol">&amp;nbsp;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/login"</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Header;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-routesindexjs">📂 <code>routes/index.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { BrowserRouter, Route, Routes } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> Home <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/Home"</span>;
+<span class="hljs-keyword">import</span> Register <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/Register"</span>;
+<span class="hljs-keyword">import</span> Login <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/Login"</span>;
+<span class="hljs-keyword">import</span> Profile <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/Profile"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-built_in">Error</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/Error"</span>;
+<span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">"../layout/Header"</span>;
+
+<span class="hljs-keyword">const</span> Index = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Header</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Home</span> /&gt;</span>} /&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/register"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Register</span> /&gt;</span>} /&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/login"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Login</span> /&gt;</span>} /&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/profile"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Profile</span> /&gt;</span>} /&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Error</span> /&gt;</span>} /&gt;
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Index;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-appjs">📂 <code>App.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">"./App.css"</span>;
+<span class="hljs-keyword">import</span> Index <span class="hljs-keyword">from</span> <span class="hljs-string">"./routes"</span>;
+
+<span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"App"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Index</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> App;
+</div></code></pre>
+<hr>
+<h3 id="%F0%9F%93%82-indexjs">📂 <code>index.js</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom/client"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">"./index.css"</span>;
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">"./App"</span>;
+<span class="hljs-keyword">import</span> reportWebVitals <span class="hljs-keyword">from</span> <span class="hljs-string">"./reportWebVitals"</span>;
+
+<span class="hljs-keyword">const</span> root = ReactDOM.createRoot(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"root"</span>));
+root.render(
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">React.StrictMode</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">React.StrictMode</span>&gt;</span></span>
+);
+
+reportWebVitals();
+</div></code></pre>
+<hr>
+<p>✅ Now your <strong>frontend is structured</strong> with:</p>
+<ul>
+<li><code>components/</code> → Pages (Home, Login, Register, Profile, Error)</li>
+<li><code>layout/</code> → Reusable UI (Header)</li>
+<li><code>routes/</code> → Routing setup</li>
+<li><code>App.js</code> &amp; <code>index.js</code> → Root files</li>
+</ul>
+
+</body>
+</html>
