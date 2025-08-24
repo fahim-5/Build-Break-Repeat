@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahim Faysal - Professional CV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .cv-container {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 15mm;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 3px;
+    }
+
+    .header .title {
+      font-size: 16px;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 14px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-item a {
+      color: white;
+    }
+
+    .section {
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      color: #2c3e50;
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #3498db;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      color: #3498db;
+      font-size: 16px;
+    }
+
+    /* Skills Layout */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .skill-category h4 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+
+    .skill-list {
+      list-style-type: none;
+    }
+
+    .skill-list li {
+      padding: 5px 10px;
+      background: #f4f6f7;
+      margin-bottom: 5px;
+      border-radius: 3px;
+      border-left: 3px solid #3498db;
+      font-size: 14px;
+    }
+
+    .project-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .project-list li {
+      padding: 6px 12px;
+      background: #f4f6f7;
+      border-radius: 5px;
+      border-left: 3px solid #2c3e50;
+      font-size: 14px;
+    }
+
+    .education-item {
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      background: #f4f6f7;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .institution {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 15px;
+    }
+
+    .date {
+      color: #666;
+      font-style: italic;
+      margin-top: 2px;
+      font-size: 13px;
+    }
+
+    .activity-item {
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      background: #f4f6f7;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .soft-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      padding: 5px 12px;
+      background: #e7f4fe;
+      border-radius: 15px;
+      color: #2c3e50;
+      font-size: 13px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #ddd;
+      margin: 15px 0;
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .cv-container {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 15mm;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cv-container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Fahim Faysal</h1>
+      <div class="title">Aspiring Software Engineer | Full-Stack Web Developer</div>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:mfaysal223224@bscse.uiu.ac.bd">mfaysal223224@bscse.uiu.ac.bd</a>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>+8801774071130</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-globe"></i>
+          <a href="https://github.com/fahim-5/Tic-Toc-Game-">GitHub</a> | 
+          <a href="https://www.linkedin.com/in/fahim-faysal-6a6425253/">LinkedIn</a> | 
+          <a href="https://www.facebook.com/fahimbafu">Facebook</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-user"></i> Professional Summary</h2>
+      <p>Full-stack web developer skilled in modern JavaScript frameworks, backend systems, and database design. Experienced in building scalable applications, applying clean architecture principles, and leveraging data analytics for real-world problem solving.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Skills -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-code"></i> Technical Skills</h2>
+      <div class="skills-grid">
+        <div>
+          <div class="skill-category">
+            <h4>Programming Languages</h4>
+            <ul class="skill-list">
+              <li>C</li><li>C++</li><li>Java</li><li>Python</li><li>JavaScript (ES6+)</li><li>TypeScript</li>
+            </ul>
+          </div>
+          <div class="skill-category">
+            <h4>Frontend Development</h4>
+            <ul class="skill-list">
+              <li>React.js</li><li>Redux.js</li><li>HTML5</li><li>CSS3</li><li>Tailwind CSS</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="skill-category">
+            <h4>Backend & Databases</h4>
+            <ul class="skill-list">
+              <li>Node.js</li><li>Express.js</li><li>MySQL</li><li>MongoDB</li>
+            </ul>
+          </div>
+          <div class="skill-category">
+            <h4>Tools & Other Skills</h4>
+            <ul class="skill-list">
+              <li>Git</li><li>GitHub</li><li>NumPy</li><li>Pandas</li><li>Matplotlib</li>
+              <li>Data Structures</li><li>Algorithms</li><li>System Design</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Projects -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-briefcase"></i> Projects</h2>
+      <ul class="project-list">
+        <li>E-commerce Website</li>
+        <li>Weather App</li>
+        <li>Tic-Tac-Toe (Multiplayer)</li>
+        <li>Rock-Paper-Scissors Game</li>
+        <li>Amazon Clone</li>
+        <li>Adventure Site</li>
+        <li>Portfolio</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Education -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Education</h2>
+      <div class="education-item">
+        <div class="institution">United International University</div>
+        <p>B.Sc. in Computer Science <span class="date">(Expected Aug 2026)</span></p>
+      </div>
+      <div class="education-item">
+        <div class="institution">Cantonment Public School & College</div>
+        <p>HSC, GPA 5.00 <span class="date">(2022)</span></p>
+      </div>
+      <div class="education-item">
+        <div class="institution">St. Philips High School & College</div>
+        <p>SSC, GPA 5.00 <span class="date">(2019)</span></p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Experience -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-users"></i> Experience & Activities</h2>
+      <div class="activity-item">General Member, <strong>UIU Computer Club</strong></div>
+      <div class="activity-item">General Member, <strong>UIU App Forum</strong></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Soft Skills -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-star"></i> Soft Skills</h2>
+      <div class="soft-skills">
+        <span class="skill-pill">Communication</span>
+        <span class="skill-pill">Teamwork</span>
+        <span class="skill-pill">Problem Solving</span>
+        <span class="skill-pill">Fast Learner</span>
+        <span class="skill-pill">Organized</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
