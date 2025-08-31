@@ -160,3 +160,5 @@ vi filename
 
 mkdir to crete directory in mac
 rmdir to delete directory
+to chage folder we use cd
+
